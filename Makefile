@@ -1,0 +1,28 @@
+SRC_DIR 	= 	src/
+
+SRC 		= 	main.go \
+			handlers.go \
+			logger.go \
+			pars_routes.go \
+			router.go \
+			routes.go \
+			todo.go
+
+SRC 		:= 	$(addprefix $(SRC_DIR), $(SRC))
+
+NAME 		= 	rest_api
+
+$(NAME): 		
+			go build -o $(NAME) $(SRC)
+
+all: 			$(NAME)
+
+fclean: 		
+			rm -f $(NAME)
+
+re: 			fclean all
+
+deps: 			
+			go get github.com/gorilla/mux
+
+.PHONY: 		all re deps fclean

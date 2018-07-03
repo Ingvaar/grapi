@@ -1,0 +1,32 @@
+[
+	{
+		"name": 	"Index",
+		"method":	"GET",
+		"pattern":	"/",
+		"handler":	"index"
+	},
+	{
+		"name": 	"GetTable",
+		"method":	"GET",
+		"pattern":	"/{table}",
+		"handler":	"getTable"
+	},
+	{
+		"name": 	"GetLine",
+		"method":	"GET",
+		"pattern":	"/{table}/{id}",
+		"handler":	"getLine"
+	},
+	{
+		"name": 	"CreateLine",
+		"method":	"POST",
+		"pattern":	"/{table}/{id}",
+		"handler":	"createLine"
+	},
+	{
+		"name": 	"DeleteLine",
+		"method":	"DELETE",
+		"pattern":	"/{table}/{id}",
+		"handler":	"deleteLine"
+	}
+]
