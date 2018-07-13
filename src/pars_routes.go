@@ -7,27 +7,15 @@ import (
 	"fmt"
 )
 
-func create_routes() Routes {
-	args := os.Args;
+func create_routes(opt Options) Routes {
+	_, err := os.Stat(opt.RoutesConfig);
 
-	if len(args) > 1 {
-		_, err := os.Stat(args[1]);
-		if err == nil {
-			fmt.Printf("Config file %s found !\n", args[1]);
-			return(pars_config(args[1]));
-		} else {
-			fmt.Printf("Config file %s not found\n", args[1]);
-			os.Exit(1);
-		}
+	if err == nil {
+		fmt.Printf("Config file %s found !\n", opt.RoutesConfig);
+		return(pars_config(opt.RoutesConfig));
 	} else {
-		_, err := os.Stat("./config.json");
-		if err == nil {
-			fmt.Println("Config file found");
-			return(pars_config("./config.json"));
-		} else {
-			fmt.Printf("Config file not found\n");
-			os.Exit(1);
-		}
+		fmt.Printf("Config file %s not found\n", opt.RoutesConfig);
+		os.Exit(1);
 	}
 	return (nil);
 }

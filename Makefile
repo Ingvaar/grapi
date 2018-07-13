@@ -6,7 +6,9 @@ SRC 		= 	main.go \
 			pars_routes.go \
 			router.go \
 			routes.go \
-			todo.go
+			todo.go \
+			db_utils.go \
+			pars_cmdline.go
 
 SRC 		:= 	$(addprefix $(SRC_DIR), $(SRC))
 

@@ -7,10 +7,10 @@ import (
 	"os"
 )
 
-func NewRouter() *mux.Router {
+func NewRouter(opt Options) *mux.Router {
 	routeur := mux.NewRouter().StrictSlash(true);
 	var handler http.Handler;
-	var routes = create_routes();
+	var routes = create_routes(opt);
 
 	if routes != nil {
 		for _, route := range routes {

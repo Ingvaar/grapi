@@ -6,7 +6,8 @@ import (
 )
 
 func main() {
-	router := NewRouter();
+	opt := Pars_cmdline();
+	router := NewRouter(opt);
 
 	log.Fatal(http.ListenAndServe(":8080", router));
 }
