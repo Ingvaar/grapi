@@ -8,7 +8,8 @@ SRC 		= 	main.go \
 			routes.go \
 			todo.go \
 			db_utils.go \
-			pars_cmdline.go
+			pars_cmdline.go \
+			get_db_login.go
 
 SRC 		:= 	$(addprefix $(SRC_DIR), $(SRC))
 
