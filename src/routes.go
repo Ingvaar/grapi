@@ -10,6 +10,7 @@ type Route struct {
 }
 
 var HandlerFunc = map[string]http.HandlerFunc{
+	"status": status,
 	"index": index,
 	"getTable": getTable,
 	"getLine": getLine,

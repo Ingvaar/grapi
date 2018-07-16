@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/gorilla/mux"
 	"net/http"
-	"fmt"
+	"log"
 	"os"
 )
 
@@ -23,7 +23,7 @@ func NewRouter(opt Options) *mux.Router {
 				Handler(handler);
 		}
 	} else {
-		fmt.Println("Error: Config file incorrect\nExiting...");
+		log.Fatal("Error: Routes config file incorrect");
 		os.Exit(1);
 	}
 	return (routeur);

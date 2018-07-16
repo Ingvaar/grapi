@@ -3,7 +3,9 @@ package main
 import (
 	"database/sql"
 	"log"
+	"os"
 	"fmt"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 type db_login struct {
@@ -24,8 +26,11 @@ func openDatabase(opt Options) *sql.DB {
 	var err error
 
 	db, err = sql.Open("mysql", connectionStr)
+	err = db.Ping()
 	if err != nil {
 		log.Fatal(err)
+		os.Exit(1)
 	}
-	return db
+	fmt.Println("Database connected")
+	return (db)
 }

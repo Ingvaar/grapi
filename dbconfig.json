@@ -1,8 +1,6 @@
-[
-	{
-		"address": 	"localhost",
-		"username":	"user",
-		"password":	"password",
-		"database": 	"example_db"
-	}
-]
+{
+	"address": 	"localhost",
+	"username":	"user",
+	"password":	"password",
+	"database": 	"example_db"
+}

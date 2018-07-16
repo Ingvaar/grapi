@@ -1,5 +1,11 @@
 [
 	{
+		"name": 	"Status",
+		"method":	"GET",
+		"pattern":	"/status",
+		"handler":	"status"
+	},
+	{
 		"name": 	"Index",
 		"method":	"GET",
 		"pattern":	"/",
@@ -8,25 +14,25 @@
 	{
 		"name": 	"GetTable",
 		"method":	"GET",
-		"pattern":	"/{table}",
+		"pattern":	"/test/{table}",
 		"handler":	"getTable"
 	},
 	{
 		"name": 	"GetLine",
 		"method":	"GET",
-		"pattern":	"/{table}/{id}",
+		"pattern":	"/test/{table}/{id}",
 		"handler":	"getLine"
 	},
 	{
 		"name": 	"CreateLine",
 		"method":	"POST",
-		"pattern":	"/{table}/{id}",
+		"pattern":	"/test/{table}/{id}",
 		"handler":	"createLine"
 	},
 	{
 		"name": 	"DeleteLine",
 		"method":	"DELETE",
-		"pattern":	"/{table}/{id}",
+		"pattern":	"/test/{table}/{id}",
 		"handler":	"deleteLine"
 	}
 ]
