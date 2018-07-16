@@ -28,6 +28,7 @@ func openDatabase(opt Options) *sql.DB {
 	db, err = sql.Open("mysql", connectionStr)
 	err = db.Ping()
 	if err != nil {
+		defer db.Close()
 		log.Fatal(err)
 		os.Exit(1)
 	}
