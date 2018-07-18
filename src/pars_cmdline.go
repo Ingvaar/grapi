@@ -15,11 +15,11 @@ func Pars_cmdline() Options {
 	flag.StringVar(&opt.RoutesConfig,
 				"config",
 				"./config.json",
-				"routes config")
+				"Path to routes config file (json)")
 	flag.StringVar(&opt.DBLogin,
 				"db",
 				"./dbconfig.json",
-				"db config")
+				"Path to db config file (json)")
 	flag.Parse()
 	return opt
 }

@@ -24,10 +24,11 @@ func openDatabase(opt Options) *sql.DB {
 			dblogin.Database)
 	var db *sql.DB
 	var err error
+	var ping error
 
 	db, err = sql.Open("mysql", connectionStr)
-	err = db.Ping()
-	if err != nil {
+	ping = db.Ping()
+	if err != nil && ping != nil {
 		defer db.Close()
 		log.Fatal(err)
 		os.Exit(1)

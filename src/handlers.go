@@ -1,15 +1,19 @@
 package main
 
 import (
-	"encoding/json"
+	"strconv"
 	"fmt"
 	"net/http"
 	"github.com/gorilla/mux"
 )
 
 func status(w http.ResponseWriter, r *http.Request) {
-	if db == nil {
-		fmt.Fprintln(w, "Database error")
+	err := db.Ping()
+
+	if err == nil {
+		fmt.Fprintln(w, "Database connected")
+	} else {
+		fmt.Fprintf(w, "%s\n", err)
 	}
 }
 
@@ -17,27 +21,26 @@ func index(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintln(w, "Welcome !")
 }
 
-func getTable(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r);
-	tab_name := vars["table"]
-	todos := Todos{
-		Todo{Name: "Write presentation"},
-		Todo{Name: "Host meetup"},
-	}
-
-	json.NewEncoder(w).Encode(todos)
-	fmt.Fprintln(w, "getTable")
-	fmt.Fprintf(w, "Table : %s\n", tab_name)
-}
-
 func getLine(w http.ResponseWriter, r *http.Request) {
 	pathVars := mux.Vars(r)
 	tab_name := pathVars["table"]
 	id := pathVars["id"]
+	id_num, err_atoi := strconv.Atoi(id)
 
-	fmt.Fprintln(w, "getLineContent")
-	fmt.Fprintf(w, "Table : %s\n", tab_name)
-	fmt.Fprintf(w, "Line id : %s\n", id)
+	statement := fmt.Sprintf("SELECT * FROM %s WHERE id=%d", tab_name, id_num)
+	content, err := db.Exec(statement)
+	if err != nil || err_atoi != nil {
+		if err != nil {
+			fmt.Fprintf(w, "%s\n", err)
+		}
+		if err_atoi != nil {
+			fmt.Fprintf(w, "Error: invalid id '%s'\n", id)
+		}
+	} else {
+		fmt.Fprintf(w, "Table : %s\n", tab_name)
+		fmt.Fprintf(w, "Line id : %d\n", id_num)
+		fmt.Fprintf(w, "Content : %s\n", content)
+	}
 }
 
 func createLine(w http.ResponseWriter, r *http.Request) {
