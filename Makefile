@@ -10,7 +10,8 @@ SRC 		= 	main.go \
 			db_utils.go \
 			pars_cmdline.go \
 			get_db_login.go \
-			get_table.go
+			get_table.go \
+			get_line.go
 
 SRC 		:= 	$(addprefix $(SRC_DIR), $(SRC))
 

@@ -25,21 +25,21 @@ func getTable(w http.ResponseWriter, r *http.Request) {
 	if err != nil || err_col != nil {
 		fmt.Fprintf(w, "%s", err)
 	} else {
-		Print_cols(col_names, rows, w)
+		Print_rows(col_names, rows, w)
 	}
 }
 
-func Print_cols(col_names []string, rows *sql.Rows,
+func Print_rows(col_names []string, rows *sql.Rows,
 		w http.ResponseWriter) {
-	col_map := Create_scan_map(col_names)
+	cols_map := Create_cols_map(col_names)
 	fmt.Fprintf(w, "[")
 	mult_rows := false
 	for rows.Next() {
 		if mult_rows {
 			fmt.Fprintf(w, ",")
 		}
-		col_map.Update_col_map(rows)
-		cols := col_map.Get_cols_from_map()
+		cols_map.Update_col_map(rows)
+		cols := cols_map.Get_cols_from_map()
 		jsonStr, json_err := json.Marshal(cols)
 		if json_err == nil {
 			fmt.Fprintf(w, "%s", jsonStr)
@@ -51,7 +51,7 @@ func Print_cols(col_names []string, rows *sql.Rows,
 	fmt.Fprintf(w, "]")
 }
 
-func Create_scan_map(columns []string) *colStruct {
+func Create_cols_map(columns []string) *colStruct {
 	col_len := len(columns)
 	colStruct := &colStruct {
 		colPtr:		make([]interface{}, col_len),
