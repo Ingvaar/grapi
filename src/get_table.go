@@ -23,6 +23,7 @@ func getTable(w http.ResponseWriter, r *http.Request) {
 	rows, err := db.Query(statement)
 	col_names, err_col := rows.Columns()
 	if err != nil || err_col != nil {
+		w.WriteHeader(http.StatusBadRequest)
 		fmt.Fprintf(w, "%s", err)
 	} else {
 		Print_rows(col_names, rows, w)
@@ -44,6 +45,7 @@ func Print_rows(col_names []string, rows *sql.Rows,
 		if json_err == nil {
 			fmt.Fprintf(w, "%s", jsonStr)
 		} else {
+			w.WriteHeader(http.StatusInternalServerError)
 			fmt.Fprintln(w, json_err)
 		}
 		mult_rows = true

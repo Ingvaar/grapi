@@ -17,11 +17,13 @@ func getLine(w http.ResponseWriter, r *http.Request) {
 
 	statement := fmt.Sprintf("SELECT * FROM %s WHERE id=%d", tab_name, id_num)
 	if err_atoi != nil {
+		w.WriteHeader(http.StatusBadRequest)
 		fmt.Fprintf(w, "Error: invalid id '%s'\n", id)
 	} else {
 		rows, err := db.Query(statement)
 		col_names, err_col := rows.Columns()
 		if err != nil || err_col != nil {
+			w.WriteHeader(http.StatusInternalServerError)
 			fmt.Fprintf(w, "%s", err)
 		} else {
 			Print_row(col_names, rows, w)
@@ -39,6 +41,7 @@ func Print_row(col_names []string, rows *sql.Rows,
 	if json_err == nil {
 		fmt.Fprintf(w, "%s", jsonStr)
 	} else {
+		w.WriteHeader(http.StatusInternalServerError)
 		fmt.Fprintln(w, json_err)
 	}
 }

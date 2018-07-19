@@ -22,7 +22,8 @@ func index(w http.ResponseWriter, r *http.Request) {
 }
 
 func createLine(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "Not implemented")
+	w.WriteHeader(http.StatusNotImplemented)
+	fmt.Fprintln(w, "501 - Not implemented")
 }
 
 func deleteLine(w http.ResponseWriter, r *http.Request) {
