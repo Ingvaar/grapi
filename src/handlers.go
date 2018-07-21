@@ -21,11 +21,6 @@ func index(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintln(w, "Welcome !")
 }
 
-func createLine(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusNotImplemented)
-	fmt.Fprintln(w, "501 - Not implemented")
-}
-
 func deleteLine(w http.ResponseWriter, r *http.Request) {
 	pathVars := mux.Vars(r)
 	tab_name := pathVars["table"]
