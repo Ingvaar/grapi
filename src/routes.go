@@ -16,6 +16,7 @@ var HandlerFunc = map[string]http.HandlerFunc{
 	"getLine": getLine,
 	"createLine": createLine,
 	"deleteLine": deleteLine,
+	"updateLine": updateLine,
 }
 
 type Routes []Route;

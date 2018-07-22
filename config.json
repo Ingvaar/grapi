@@ -34,5 +34,11 @@
 		"method":	"DELETE",
 		"pattern":	"/test/{table}/{id}",
 		"handler":	"deleteLine"
+	},
+	{
+		"name": 	"UpdateLine",
+		"method":	"PUT",
+		"pattern":	"/test/{table}/{id}",
+		"handler":	"updateLine"
 	}
 ]
