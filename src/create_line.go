@@ -1,11 +1,8 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/http"
-	"io/ioutil"
-	"strings"
 	"github.com/gorilla/mux"
 )
 
@@ -34,15 +31,4 @@ func createLine(w http.ResponseWriter, r *http.Request) {
 	} else {
 		w.WriteHeader(http.StatusCreated)
 	}
-}
-
-func json_to_map(w http.ResponseWriter, r *http.Request) map[string]interface{} {
-	jsonMap := make(map[string]interface{})
-	body, err := ioutil.ReadAll(r.Body)
-
-	if err == nil {
-		array := strings.Split(string(body), "\n")
-		json.Unmarshal([]byte(array[3]), &jsonMap)
-	}
-	return (jsonMap)
 }

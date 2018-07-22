@@ -11,7 +11,8 @@ SRC 		= 	main.go \
 			get_db_login.go \
 			get_table.go \
 			get_line.go \
-			create_line.go
+			create_line.go \
+			handlers_utils.go
 
 SRC 		:= 	$(addprefix $(SRC_DIR), $(SRC))
 
