@@ -21,6 +21,7 @@ func getTable(w http.ResponseWriter, r *http.Request) {
 	statement := fmt.Sprintf("SELECT * FROM %s", tab_name)
 
 	rows, err := db.Query(statement)
+	defer rows.Close()
 	col_names, err_col := rows.Columns()
 	if err != nil || err_col != nil {
 		w.WriteHeader(http.StatusBadRequest)

@@ -13,5 +13,6 @@ func main() {
 	db = openDatabase(opt);
 	router := NewRouter(opt);
 
+	defer db.Close()
 	log.Fatal(http.ListenAndServe(":8080", router));
 }

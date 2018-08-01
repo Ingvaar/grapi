@@ -21,6 +21,7 @@ func getLine(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Error: invalid id '%s'\n", id)
 	} else {
 		rows, err := db.Query(statement)
+		defer rows.Close()
 		col_names, err_col := rows.Columns()
 		if err != nil || err_col != nil {
 			w.WriteHeader(http.StatusInternalServerError)
