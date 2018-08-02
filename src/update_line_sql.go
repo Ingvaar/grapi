@@ -6,29 +6,27 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func createLine(w http.ResponseWriter, r *http.Request) {
+func updateLineSQL(w http.ResponseWriter, r *http.Request) {
 	jsonmap := json_to_map(w, r)
 	pathVars := mux.Vars(r)
 	tab_name := pathVars["table"]
+	id := pathVars["id"]
 	mult_insert := false
 
-	statement := fmt.Sprintf("INSERT INTO %s (", tab_name)
-	values := fmt.Sprintf("VALUES (")
+	statement := fmt.Sprintf("UPDATE %s SET ", tab_name)
 	for key, value := range jsonmap {
 		if mult_insert {
 			statement = fmt.Sprintf("%s, ", statement)
-			values = fmt.Sprintf("%s, ", values)
 		}
-		statement = fmt.Sprintf("%s%s", statement, key)
-		values = fmt.Sprintf("%s%s", values, value)
+		statement = fmt.Sprintf("%s%s = %s", statement, key, value)
 		mult_insert = true
 	}
-	statement = fmt.Sprintf("%s) %s);", statement, values)
-	_, err := db.Exec(statement)
+	statement = fmt.Sprintf("%s WHERE id=%s;", statement, id)
+	_, err := dbSQL.Exec(statement)
 	if err != nil {
 		fmt.Fprintf(w, "%s\n", err)
 		w.WriteHeader(http.StatusBadRequest)
 	} else {
-		w.WriteHeader(http.StatusCreated)
+		w.WriteHeader(http.StatusOK)
 	}
 }

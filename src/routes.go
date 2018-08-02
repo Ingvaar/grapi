@@ -12,11 +12,11 @@ type Route struct {
 var HandlerFunc = map[string]http.HandlerFunc{
 	"status": status,
 	"index": index,
-	"getTable": getTable,
-	"getLine": getLine,
-	"createLine": createLine,
-	"deleteLine": deleteLine,
-	"updateLine": updateLine,
+	"getTableSQL": getTableSQL,
+	"getLineSQL": getLineSQL,
+	"createLineSQL": createLineSQL,
+	"deleteLineSQL": deleteLineSQL,
+	"updateLineSQL": updateLineSQL,
 }
 
 type Routes []Route;

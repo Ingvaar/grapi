@@ -9,7 +9,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func getLine(w http.ResponseWriter, r *http.Request) {
+func getLineSQL(w http.ResponseWriter, r *http.Request) {
 	pathVars := mux.Vars(r)
 	tab_name := pathVars["table"]
 	id := pathVars["id"]
@@ -20,7 +20,7 @@ func getLine(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		fmt.Fprintf(w, "Error: invalid id '%s'\n", id)
 	} else {
-		rows, err := db.Query(statement)
+		rows, err := dbSQL.Query(statement)
 		defer rows.Close()
 		col_names, err_col := rows.Columns()
 		if err != nil || err_col != nil {

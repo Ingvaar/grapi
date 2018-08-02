@@ -15,30 +15,30 @@
 		"name": 	"GetTable",
 		"method":	"GET",
 		"pattern":	"/test/{table}",
-		"handler":	"getTable"
+		"handler":	"getTableSQL"
 	},
 	{
 		"name": 	"GetLine",
 		"method":	"GET",
 		"pattern":	"/test/{table}/{id}",
-		"handler":	"getLine"
+		"handler":	"getLineSQL"
 	},
 	{
 		"name": 	"CreateLine",
 		"method":	"POST",
 		"pattern":	"/test/{table}/{id}",
-		"handler":	"createLine"
+		"handler":	"createLineSQL"
 	},
 	{
 		"name": 	"DeleteLine",
 		"method":	"DELETE",
 		"pattern":	"/test/{table}/{id}",
-		"handler":	"deleteLine"
+		"handler":	"deleteLineSQL"
 	},
 	{
 		"name": 	"UpdateLine",
 		"method":	"PUT",
 		"pattern":	"/test/{table}/{id}",
-		"handler":	"updateLine"
+		"handler":	"updateLineSQL"
 	}
 ]

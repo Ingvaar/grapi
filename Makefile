@@ -1,19 +1,20 @@
 SRC_DIR 	= 	src/
 
 SRC 		= 	main.go \
-			handlers.go \
+			basic_handlers.go \
 			logger.go \
 			pars_routes.go \
 			router.go \
 			routes.go \
-			db_utils.go \
+			sql_db_utils.go \
 			pars_cmdline.go \
-			get_db_login.go \
-			get_table.go \
-			get_line.go \
-			create_line.go \
+			get_config.go \
+			get_table_sql.go \
+			get_line_sql.go \
+			create_line_sql.go \
 			handlers_utils.go \
-			update_line.go
+			update_line_sql.go \
+			delete_line_sql.go
 
 SRC 		:= 	$(addprefix $(SRC_DIR), $(SRC))
 

@@ -6,13 +6,15 @@ import (
 	"database/sql"
 )
 
-var db *sql.DB = nil
+var dbSQL *sql.DB = nil
+var cfg Config
 
 func main() {
 	opt := Pars_cmdline();
-	db = openDatabase(opt);
+	cfg = Get_config(opt)
+	dbSQL = openSQLDatabase(cfg);
 	router := NewRouter(opt);
 
-	defer db.Close()
+	defer dbSQL.Close()
 	log.Fatal(http.ListenAndServe(":8080", router));
 }
