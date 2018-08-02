@@ -1,0 +1,44 @@
+[
+	{
+		"name": 	"Status",
+		"method":	"GET",
+		"pattern":	"/status",
+		"handler":	"status"
+	},
+	{
+		"name": 	"Index",
+		"method":	"GET",
+		"pattern":	"/",
+		"handler":	"index"
+	},
+	{
+		"name": 	"GetTable",
+		"method":	"GET",
+		"pattern":	"/test/{table}",
+		"handler":	"getTable"
+	},
+	{
+		"name": 	"GetLine",
+		"method":	"GET",
+		"pattern":	"/test/{table}/{id}",
+		"handler":	"getLine"
+	},
+	{
+		"name": 	"CreateLine",
+		"method":	"POST",
+		"pattern":	"/test/{table}/{id}",
+		"handler":	"createLine"
+	},
+	{
+		"name": 	"DeleteLine",
+		"method":	"DELETE",
+		"pattern":	"/test/{table}/{id}",
+		"handler":	"deleteLine"
+	},
+	{
+		"name": 	"UpdateLine",
+		"method":	"PUT",
+		"pattern":	"/test/{table}/{id}",
+		"handler":	"updateLine"
+	}
+]
