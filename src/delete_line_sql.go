@@ -1,20 +1,20 @@
 package main
 
 import (
-	"strconv"
 	"fmt"
-	"net/http"
 	"github.com/gorilla/mux"
+	"net/http"
+	"strconv"
 )
 
 func deleteLineSQL(w http.ResponseWriter, r *http.Request) {
 	pathVars := mux.Vars(r)
-	tab_name := pathVars["table"]
+	tabName := pathVars["table"]
 	id := pathVars["id"]
-	id_num, err_atoi := strconv.Atoi(id)
+	idNum, errAtoi := strconv.Atoi(id)
 
-	statement := fmt.Sprintf("DELETE FROM %s WHERE id=%d", tab_name, id_num)
-	if err_atoi != nil {
+	statement := fmt.Sprintf("DELETE FROM %s WHERE id=%d", tabName, idNum)
+	if errAtoi != nil {
 		fmt.Fprintf(w, "Error: invalid id '%s'\n", id)
 	} else {
 		_, err := dbSQL.Query(statement)

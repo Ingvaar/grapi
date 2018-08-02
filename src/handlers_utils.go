@@ -2,12 +2,12 @@ package main
 
 import (
 	"encoding/json"
-	"net/http"
 	"io/ioutil"
+	"net/http"
 	"strings"
 )
 
-func json_to_map(w http.ResponseWriter, r *http.Request) map[string]interface{} {
+func jsonToMap(w http.ResponseWriter, r *http.Request) map[string]interface{} {
 	jsonMap := make(map[string]interface{})
 	body, err := ioutil.ReadAll(r.Body)
 

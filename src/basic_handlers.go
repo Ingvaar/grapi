@@ -6,12 +6,12 @@ import (
 )
 
 func status(w http.ResponseWriter, r *http.Request) {
-	sql_err := dbSQL.Ping()
+	sqlErr := dbSQL.Ping()
 
-	if sql_err == nil {
+	if sqlErr == nil {
 		fmt.Fprintln(w, "SQL Database connected")
-	} else if sql_err != nil && cfg.SQL == 1 {
-		fmt.Fprintln(w, sql_err)
+	} else if sqlErr != nil && cfg.SQL == 1 {
+		fmt.Fprintln(w, sqlErr)
 	}
 }
 

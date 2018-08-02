@@ -2,26 +2,26 @@ package main
 
 import (
 	"fmt"
-	"net/http"
 	"github.com/gorilla/mux"
+	"net/http"
 )
 
 func createLineSQL(w http.ResponseWriter, r *http.Request) {
-	jsonmap := json_to_map(w, r)
+	jsonmap := jsonToMap(w, r)
 	pathVars := mux.Vars(r)
-	tab_name := pathVars["table"]
-	mult_insert := false
+	tabName := pathVars["table"]
+	multInsert := false
 
-	statement := fmt.Sprintf("INSERT INTO %s (", tab_name)
+	statement := fmt.Sprintf("INSERT INTO %s (", tabName)
 	values := fmt.Sprintf("VALUES (")
 	for key, value := range jsonmap {
-		if mult_insert {
+		if multInsert {
 			statement = fmt.Sprintf("%s, ", statement)
 			values = fmt.Sprintf("%s, ", values)
 		}
 		statement = fmt.Sprintf("%s%s", statement, key)
 		values = fmt.Sprintf("%s%s", values, value)
-		mult_insert = true
+		multInsert = true
 	}
 	statement = fmt.Sprintf("%s) %s);", statement, values)
 	_, err := dbSQL.Exec(statement)

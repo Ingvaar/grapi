@@ -2,29 +2,30 @@ package main
 
 import (
 	"github.com/gorilla/mux"
-	"net/http"
 	"log"
+	"net/http"
 	"os"
 )
 
+// NewRouter : creates a new router
 func NewRouter(opt Options) *mux.Router {
-	routeur := mux.NewRouter().StrictSlash(true);
-	var handler http.Handler;
-	var routes = create_routes(opt);
+	routeur := mux.NewRouter().StrictSlash(true)
+	var handler http.Handler
+	var routes = createRoutes(opt)
 
 	if routes != nil {
 		for _, route := range routes {
-			handler = HandlerFunc[route.HandlerFunc];
-			handler = Logger(handler, route.Name);
+			handler = HandlerFunc[route.HandlerFunc]
+			handler = Logger(handler, route.Name)
 			routeur.
 				Methods(route.Method).
 				Path(route.Pattern).
 				Name(route.Name).
-				Handler(handler);
+				Handler(handler)
 		}
 	} else {
-		log.Fatal("Error: Routes config file incorrect");
-		os.Exit(1);
+		log.Fatal("Error: Routes config file incorrect")
+		os.Exit(1)
 	}
-	return (routeur);
+	return (routeur)
 }

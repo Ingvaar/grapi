@@ -2,18 +2,18 @@ package main
 
 import (
 	"database/sql"
-	"log"
-	"os"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
+	"log"
+	"os"
 )
 
 func openSQLDatabase(cfg Config) *sql.DB {
 	connectionStr := fmt.Sprintf("%s:%s@%s/%s",
-			cfg.SQL_Username,
-			cfg.SQL_Password,
-			cfg.SQL_Adress,
-			cfg.SQL_Database)
+		cfg.SQLUsername,
+		cfg.SQLPassword,
+		cfg.SQLAddress,
+		cfg.SQLDatabase)
 	var db *sql.DB
 	var err error
 	var ping error

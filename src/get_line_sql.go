@@ -1,48 +1,49 @@
 package main
 
 import (
-	"strconv"
-	"fmt"
-	"net/http"
 	"database/sql"
 	"encoding/json"
+	"fmt"
 	"github.com/gorilla/mux"
+	"net/http"
+	"strconv"
 )
 
 func getLineSQL(w http.ResponseWriter, r *http.Request) {
 	pathVars := mux.Vars(r)
-	tab_name := pathVars["table"]
+	tabName := pathVars["table"]
 	id := pathVars["id"]
-	id_num, err_atoi := strconv.Atoi(id)
+	idNum, errAtoi := strconv.Atoi(id)
 
-	statement := fmt.Sprintf("SELECT * FROM %s WHERE id=%d", tab_name, id_num)
-	if err_atoi != nil {
+	statement := fmt.Sprintf("SELECT * FROM %s WHERE id=%d", tabName, idNum)
+	if errAtoi != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		fmt.Fprintf(w, "Error: invalid id '%s'\n", id)
 	} else {
 		rows, err := dbSQL.Query(statement)
 		defer rows.Close()
-		col_names, err_col := rows.Columns()
-		if err != nil || err_col != nil {
+		colNames, errCol := rows.Columns()
+		if err != nil || errCol != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			fmt.Fprintf(w, "%s", err)
 		} else {
-			Print_row(col_names, rows, w)
+			printRow(colNames, rows, w)
 		}
 	}
 }
 
-func Print_row(col_names []string, rows *sql.Rows,
-		w http.ResponseWriter) {
+// printRow : function to print one row from a table
+func printRow(colNames []string, rows *sql.Rows,
+	w http.ResponseWriter) {
 	rows.Next()
-	cols_map := Create_cols_map(col_names)
-	cols_map.Update_col_map(rows)
-	cols := cols_map.Get_cols_from_map()
-	jsonStr, json_err := json.Marshal(cols)
-	if json_err == nil {
+	colsMap := CreateColsMap(colNames)
+	colsMap.UpdateColMap(rows)
+	cols := colsMap.GetColsFromMap()
+	jsonStr, jsonErr := json.Marshal(cols)
+	if jsonErr == nil {
 		fmt.Fprintf(w, "%s", jsonStr)
 	} else {
 		w.WriteHeader(http.StatusInternalServerError)
-		fmt.Fprintln(w, json_err)
+		fmt.Fprintln(w, jsonErr)
 	}
 }

@@ -1,75 +1,77 @@
 package main
 
 import (
-	"net/http"
-	"encoding/json"
-	"github.com/gorilla/mux"
 	"database/sql"
+	"encoding/json"
 	"fmt"
+	"github.com/gorilla/mux"
+	"net/http"
 )
 
 type colStruct struct {
-	colPtr		[]interface{}
-	colCount	int
-	colNames	[]string
-	rowContent	map[string]string
+	colPtr     []interface{}
+	colCount   int
+	colNames   []string
+	rowContent map[string]string
 }
 
 func getTableSQL(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r);
-	tab_name := vars["table"]
-	statement := fmt.Sprintf("SELECT * FROM %s", tab_name)
+	vars := mux.Vars(r)
+	tabName := vars["table"]
+	statement := fmt.Sprintf("SELECT * FROM %s", tabName)
 
 	rows, err := dbSQL.Query(statement)
 	defer rows.Close()
-	col_names, err_col := rows.Columns()
-	if err != nil || err_col != nil {
+	colNames, errCol := rows.Columns()
+	if err != nil || errCol != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		fmt.Fprintf(w, "%s", err)
 	} else {
-		Print_rows(col_names, rows, w)
+		PrintRows(colNames, rows, w)
 	}
 }
 
-func Print_rows(col_names []string, rows *sql.Rows,
-		w http.ResponseWriter) {
-	cols_map := Create_cols_map(col_names)
+// PrintRows : print multiple rows from a table
+func PrintRows(colNames []string, rows *sql.Rows,
+	w http.ResponseWriter) {
+	colsMap := CreateColsMap(colNames)
 	fmt.Fprintf(w, "[")
-	mult_rows := false
+	multRows := false
 	for rows.Next() {
-		if mult_rows {
+		if multRows {
 			fmt.Fprintf(w, ",")
 		}
-		cols_map.Update_col_map(rows)
-		cols := cols_map.Get_cols_from_map()
-		jsonStr, json_err := json.Marshal(cols)
-		if json_err == nil {
+		colsMap.UpdateColMap(rows)
+		cols := colsMap.GetColsFromMap()
+		jsonStr, jsonErr := json.Marshal(cols)
+		if jsonErr == nil {
 			fmt.Fprintf(w, "%s", jsonStr)
 		} else {
 			w.WriteHeader(http.StatusInternalServerError)
-			fmt.Fprintln(w, json_err)
+			fmt.Fprintln(w, jsonErr)
 		}
-		mult_rows = true
+		multRows = true
 	}
 	fmt.Fprintf(w, "]")
 }
 
-func Create_cols_map(columns []string) *colStruct {
-	col_len := len(columns)
-	colStruct := &colStruct {
-		colPtr:		make([]interface{}, col_len),
-		colCount:	col_len,
-		colNames:	columns,
-		rowContent:	make(map[string]string, col_len),
+// CreateColsMap : creates maps of the columns
+func CreateColsMap(columns []string) *colStruct {
+	colLen := len(columns)
+	colStruct := &colStruct{
+		colPtr:     make([]interface{}, colLen),
+		colCount:   colLen,
+		colNames:   columns,
+		rowContent: make(map[string]string, colLen),
 	}
 
-	for i := 0; i < col_len; i++ {
+	for i := 0; i < colLen; i++ {
 		colStruct.colPtr[i] = new(sql.RawBytes)
 	}
 	return (colStruct)
 }
 
-func (colStruct *colStruct) Update_col_map(rows *sql.Rows) error {
+func (colStruct *colStruct) UpdateColMap(rows *sql.Rows) error {
 	err := rows.Scan(colStruct.colPtr...)
 
 	if err != nil {
@@ -81,14 +83,14 @@ func (colStruct *colStruct) Update_col_map(rows *sql.Rows) error {
 			colStruct.rowContent[colStruct.colNames[i]] = string(*rb)
 			*rb = nil
 		} else {
-			err_conv := fmt.Errorf("Cannot convert index %d column %s",
-						i, colStruct.colNames[i])
-			return (err_conv)
+			errConv := fmt.Errorf("Cannot convert index %d column %s",
+				i, colStruct.colNames[i])
+			return (errConv)
 		}
 	}
 	return (nil)
 }
 
-func (colStruct *colStruct) Get_cols_from_map() map[string]string {
+func (colStruct *colStruct) GetColsFromMap() map[string]string {
 	return (colStruct.rowContent)
 }

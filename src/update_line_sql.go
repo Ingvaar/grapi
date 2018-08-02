@@ -2,24 +2,24 @@ package main
 
 import (
 	"fmt"
-	"net/http"
 	"github.com/gorilla/mux"
+	"net/http"
 )
 
 func updateLineSQL(w http.ResponseWriter, r *http.Request) {
-	jsonmap := json_to_map(w, r)
+	jsonmap := jsonToMap(w, r)
 	pathVars := mux.Vars(r)
-	tab_name := pathVars["table"]
+	tabName := pathVars["table"]
 	id := pathVars["id"]
-	mult_insert := false
+	multInsert := false
 
-	statement := fmt.Sprintf("UPDATE %s SET ", tab_name)
+	statement := fmt.Sprintf("UPDATE %s SET ", tabName)
 	for key, value := range jsonmap {
-		if mult_insert {
+		if multInsert {
 			statement = fmt.Sprintf("%s, ", statement)
 		}
 		statement = fmt.Sprintf("%s%s = %s", statement, key, value)
-		mult_insert = true
+		multInsert = true
 	}
 	statement = fmt.Sprintf("%s WHERE id=%s;", statement, id)
 	_, err := dbSQL.Exec(statement)
