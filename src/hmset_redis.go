@@ -12,14 +12,14 @@ func hmsetRedis(w http.ResponseWriter, r *http.Request) {
 	jsonmap := jsonToMap(w, r)
 	pathVars := mux.Vars(r)
 	id := fmt.Sprintf("%s:%s", pathVars["type"], pathVars["id"])
-	var err_str string
+	var errStr string
 
 	for key, value := range jsonmap {
 		err := redisCli.Cmd("HMSET", id, key, value).Err
-		err_str = fmt.Sprintf("%s\n%s", err_str, err)
+		errStr = fmt.Sprintf("%s\n%s", errStr, err)
 	}
-	if err_str != "" {
-		fmt.Fprintf(w, "%s\n", err_str)
+	if errStr != "" {
+		fmt.Fprintf(w, "%s\n", errStr)
 		w.WriteHeader(http.StatusBadRequest)
 	} else {
 		w.WriteHeader(http.StatusCreated)
