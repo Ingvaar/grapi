@@ -1,6 +1,8 @@
 {
 	"redis": 0,
+	"redis_conn_type": "tcp",
 	"redis_address": "",
+	"redis_port": "6379",
 	"redis_password": "",
 	"sql": 1,
 	"sql_address": 	"",

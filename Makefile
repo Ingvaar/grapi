@@ -14,7 +14,8 @@ SRC 		= 	main.go \
 			create_line_sql.go \
 			handlers_utils.go \
 			update_line_sql.go \
-			delete_line_sql.go
+			delete_line_sql.go \
+			redis_utils.go
 
 SRC 		:= 	$(addprefix $(SRC_DIR), $(SRC))
 
@@ -33,5 +34,6 @@ re: 			fclean all
 deps: 			
 			go get github.com/gorilla/mux
 			go get github.com/go-sql-driver/mysql
+			go get github.com/mediocregopher/radix.v2
 
 .PHONY: 		all re deps fclean
