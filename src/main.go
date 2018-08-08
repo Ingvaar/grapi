@@ -19,5 +19,6 @@ func main() {
 	router := NewRouter(opt)
 
 	defer dbSQL.Close()
+	defer redisCli.Close()
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
