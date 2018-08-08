@@ -9,16 +9,16 @@ import (
 
 // Config : struct of the config file
 type Config struct {
-	Redis			int    `json:"redis"`
-	RedisConnType		string `json:"redis_conn_type"`
-	RedisAddress		string `json:"redis_address"`
-	RedisPort		string `json:"redis_port"`
-	RedisPassword		string `json:"redis_password"`
-	SQL			int    `json:"sql"`
-	SQLAddress		string `json:"sql_address"`
-	SQLUsername		string `json:"sql_username"`
-	SQLPassword		string `json:"sql_password"`
-	SQLDatabase		string `json:"sql_database"`
+	Redis         int    `json:"redis"`
+	RedisConnType string `json:"redis_conn_type"`
+	RedisAddress  string `json:"redis_address"`
+	RedisPort     string `json:"redis_port"`
+	RedisPassword string `json:"redis_password"`
+	SQL           int    `json:"sql"`
+	SQLAddress    string `json:"sql_address"`
+	SQLUsername   string `json:"sql_username"`
+	SQLPassword   string `json:"sql_password"`
+	SQLDatabase   string `json:"sql_database"`
 }
 
 // GetConfig : returns the config struct from config file
