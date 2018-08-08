@@ -1,6 +1,6 @@
 # REST API
 [![Go Report Card](https://goreportcard.com/badge/github.com/Ingvaar/rest)](https://goreportcard.com/report/github.com/Ingvaar/rest)
-
+[![Build Status](https://travis-ci.org/Ingvaar/rest.svg?branch=master)](https://travis-ci.org/Ingvaar/rest)
 
 A simple REST API in Go that works with Redis and/or SQL database.
 **Work in progress**.
