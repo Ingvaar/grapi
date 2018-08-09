@@ -5,7 +5,7 @@ SRC 		= 	main.go \
 			logger.go \
 			pars_routes.go \
 			router.go \
-			routes.go \
+			handlers.go \
 			sql_db_utils.go \
 			pars_cmdline.go \
 			get_config.go \
