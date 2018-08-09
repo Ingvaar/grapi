@@ -6,9 +6,9 @@ import (
 	"net/http"
 )
 
-// addEntryRedis : use the hmset cmd from redis with a json passed as body
+// setEntryRedis : use the hmset cmd from redis with a json passed as body
 // and with {type}:{id} as the id of the entry
-func addEntryRedis(w http.ResponseWriter, r *http.Request) {
+func setEntryRedis(w http.ResponseWriter, r *http.Request) {
 	jsonmap := jsonToMap(w, r)
 	pathVars := mux.Vars(r)
 	id := fmt.Sprintf("%s:%s", pathVars["type"], pathVars["id"])

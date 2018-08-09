@@ -42,10 +42,10 @@
 		"handler":	"updateLineSQL"
 	},
 	{
-		"name": 	"AddEntryRedis",
+		"name": 	"setEntryRedis",
 		"method":	"POST",
 		"pattern":	"/redis/{type}/{id}",
-		"handler":	"addEntryRedis"
+		"handler":	"setEntryRedis"
 	},
 	{
 		"name": 	"getAllRedis",
