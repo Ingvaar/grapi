@@ -19,6 +19,8 @@ var HandlerFunc = map[string]http.HandlerFunc{
 	"createLineSQL": createLineSQL,
 	"deleteLineSQL": deleteLineSQL,
 	"updateLineSQL": updateLineSQL,
+	"addEntryRedis": addEntryRedis,
+	"getAllRedis":   getAllRedis,
 }
 
 // Routes : declares the type of an array of Route

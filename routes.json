@@ -12,33 +12,45 @@
 		"handler":	"index"
 	},
 	{
-		"name": 	"GetTable",
+		"name": 	"GetTableSQL",
 		"method":	"GET",
-		"pattern":	"/test/{table}",
+		"pattern":	"/sql/{table}",
 		"handler":	"getTableSQL"
 	},
 	{
-		"name": 	"GetLine",
+		"name": 	"GetLineSQL",
 		"method":	"GET",
-		"pattern":	"/test/{table}/{id}",
+		"pattern":	"/sql/{table}/{id}",
 		"handler":	"getLineSQL"
 	},
 	{
-		"name": 	"CreateLine",
+		"name": 	"CreateLineSQL",
 		"method":	"POST",
-		"pattern":	"/test/{table}/{id}",
+		"pattern":	"/sql/{table}/{id}",
 		"handler":	"createLineSQL"
 	},
 	{
-		"name": 	"DeleteLine",
+		"name": 	"DeleteLineSQL",
 		"method":	"DELETE",
-		"pattern":	"/test/{table}/{id}",
+		"pattern":	"/sql/{table}/{id}",
 		"handler":	"deleteLineSQL"
 	},
 	{
-		"name": 	"UpdateLine",
+		"name": 	"UpdateLineSQL",
 		"method":	"PUT",
-		"pattern":	"/test/{table}/{id}",
+		"pattern":	"/sql/{table}/{id}",
 		"handler":	"updateLineSQL"
+	},
+	{
+		"name": 	"AddEntryRedis",
+		"method":	"POST",
+		"pattern":	"/redis/{type}/{id}",
+		"handler":	"addEntryRedis"
+	},
+	{
+		"name": 	"getAllRedis",
+		"method":	"GET",
+		"pattern":	"/redis/{type}/{id}",
+		"handler":	"getAllRedis"
 	}
 ]
