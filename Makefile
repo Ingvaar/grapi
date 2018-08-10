@@ -17,7 +17,8 @@ SRC 		= 	main.go \
 			delete_line_sql.go \
 			redis_utils.go \
 			set_entry_redis.go \
-			getall_redis.go
+			getall_redis.go \
+			get_redis.go
 
 SRC 		:= 	$(addprefix $(SRC_DIR), $(SRC))
 

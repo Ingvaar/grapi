@@ -12,16 +12,14 @@ func setEntryRedis(w http.ResponseWriter, r *http.Request) {
 	jsonmap := jsonToMap(w, r)
 	pathVars := mux.Vars(r)
 	id := fmt.Sprintf("%s:%s", pathVars["type"], pathVars["id"])
-	var errStr string
 
 	for key, value := range jsonmap {
 		err := redisCli.Cmd("HMSET", id, key, value).Err
-		errStr = fmt.Sprintf("%s\n%s", errStr, err)
-	}
-	if errStr != "" {
-		fmt.Fprintf(w, "%s\n", errStr)
-		w.WriteHeader(http.StatusBadRequest)
-	} else {
-		w.WriteHeader(http.StatusCreated)
+		if err != nil {
+			fmt.Fprintf(w, "%s\n", err)
+			w.WriteHeader(http.StatusBadRequest)
+		} else {
+			w.WriteHeader(http.StatusCreated)
+		}
 	}
 }

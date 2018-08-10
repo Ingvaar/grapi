@@ -52,5 +52,11 @@
 		"method":	"GET",
 		"pattern":	"/redis/{type}/{id}",
 		"handler":	"getAllRedis"
+	},
+	{
+		"name": 	"getRedis",
+		"method":	"VIEW",
+		"pattern":	"/redis/{type}/{id}",
+		"handler":	"getRedis"
 	}
 ]
