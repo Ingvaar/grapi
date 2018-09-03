@@ -7,13 +7,7 @@ A simple REST API in Go that works with Redis and/or SQL database.
 
 ## Usage
 
-First, build the API with:
-
-```sh
-$ make deps && make
-```
-
-And configure it via `config.json` file.
+Configure it via `config.json` file.
 
 To build the routes, you need to edit `routes.json`.
 
@@ -33,14 +27,14 @@ Currently, there are *9* handlers:
 * **addEntryRedis**: add or update an entry in redis located by `{type}/{id}` passed in the url with an `HMSET` command and returns html code `200` if successful.
 * **getAllRedis**: get all content from an entry in redis located by `{type}/{id}` passed in the url with an `HGETALL` command and returns a json array if successful.
 
-Finally, to start the API, use:
+To start the API, use:
 
 ```sh
-$ ./rest_api
+$ ./grapi
 ```
 
 If you want to know more about the possible flags, simply use:
 
 ```sh
-$ ./rest_api --help
+$ ./grapi --help
 ```
