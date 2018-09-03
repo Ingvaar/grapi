@@ -1,7 +1,12 @@
 language: go
 
 go:
-        - master
+        - 1.x
+
+notifications:
+  email: false
 
 before_install:
-        - make deps
+        - go get github.com/go-sql-driver/mysql
+        - go get github.com/github.com/mediocregopher/radix.v2/redis
+        - go get github.com/gorilla/mux
