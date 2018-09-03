@@ -1,4 +1,4 @@
-package main
+package handlers
 
 import (
 	"database/sql"
@@ -6,10 +6,12 @@ import (
 	"fmt"
 	"github.com/gorilla/mux"
 	"net/http"
+
+	"grapi/db"
 )
 
 type colStruct struct {
-	colPtr     []interface{}
+	colPtr	   []interface{}
 	colCount   int
 	colNames   []string
 	rowContent map[string]string
@@ -20,7 +22,7 @@ func getTableSQL(w http.ResponseWriter, r *http.Request) {
 	tabName := vars["table"]
 	statement := fmt.Sprintf("SELECT * FROM %s", tabName)
 
-	rows, err := dbSQL.Query(statement)
+	rows, err := db.Db.SQL.Query(statement)
 	defer rows.Close()
 	colNames, errCol := rows.Columns()
 	if err != nil || errCol != nil {

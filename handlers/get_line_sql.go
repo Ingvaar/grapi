@@ -1,4 +1,4 @@
-package main
+package handlers
 
 import (
 	"database/sql"
@@ -7,6 +7,8 @@ import (
 	"github.com/gorilla/mux"
 	"net/http"
 	"strconv"
+
+	"grapi/db"
 )
 
 func getLineSQL(w http.ResponseWriter, r *http.Request) {
@@ -20,7 +22,7 @@ func getLineSQL(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		fmt.Fprintf(w, "Error: invalid id '%s'\n", id)
 	} else {
-		rows, err := dbSQL.Query(statement)
+		rows, err := db.Db.SQL.Query(statement)
 		defer rows.Close()
 		colNames, errCol := rows.Columns()
 		if err != nil || errCol != nil {

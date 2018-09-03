@@ -1,9 +1,11 @@
-package main
+package handlers
 
 import (
 	"fmt"
 	"github.com/gorilla/mux"
 	"net/http"
+
+	"grapi/db"
 )
 
 func updateLineSQL(w http.ResponseWriter, r *http.Request) {
@@ -22,7 +24,7 @@ func updateLineSQL(w http.ResponseWriter, r *http.Request) {
 		multInsert = true
 	}
 	statement = fmt.Sprintf("%s WHERE id=%s;", statement, id)
-	_, err := dbSQL.Exec(statement)
+	_, err := db.Db.SQL.Exec(statement)
 	if err != nil {
 		fmt.Fprintf(w, "%s\n", err)
 		w.WriteHeader(http.StatusBadRequest)

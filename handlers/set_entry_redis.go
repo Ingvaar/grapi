@@ -1,9 +1,11 @@
-package main
+package handlers
 
 import (
 	"fmt"
 	"github.com/gorilla/mux"
 	"net/http"
+
+	"grapi/db"
 )
 
 // setEntryRedis : use the hmset cmd from redis with a json passed as body
@@ -14,7 +16,7 @@ func setEntryRedis(w http.ResponseWriter, r *http.Request) {
 	id := fmt.Sprintf("%s:%s", pathVars["type"], pathVars["id"])
 
 	for key, value := range jsonmap {
-		err := redisCli.Cmd("HMSET", id, key, value).Err
+		err := db.Db.Redis.Cmd("HMSET", id, key, value).Err
 		if err != nil {
 			fmt.Fprintf(w, "%s\n", err)
 			w.WriteHeader(http.StatusBadRequest)

@@ -1,17 +1,19 @@
-package main
+package router
 
 import (
 	"encoding/json"
 	"io/ioutil"
 	"log"
 	"os"
+
+	"grapi/config"
 )
 
-func createRoutes(opt Options) Routes {
-	_, err := os.Stat(opt.RoutesFile)
+func createRoutes() Routes {
+	_, err := os.Stat(config.Cfg.Options.RoutesFile)
 
 	if err == nil {
-		return (parsRoutes(opt.RoutesFile))
+		return (parsRoutes(config.Cfg.Options.RoutesFile))
 	}
 	os.Exit(1)
 	return (nil)

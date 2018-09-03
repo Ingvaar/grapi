@@ -1,4 +1,4 @@
-package main
+package handlers
 
 import (
 	"encoding/json"
@@ -20,9 +20,9 @@ func jsonToMap(w http.ResponseWriter, r *http.Request) map[string]interface{} {
 	return (jsonMap)
 }
 
-// printMapToJson : print a json array from a map
+// printMapToJSON : print a json array from a map
 // to the specified http response writer
-func printMapToJson(w http.ResponseWriter, redisMap map[string]string) {
+func printMapToJSON(w http.ResponseWriter, redisMap map[string]string) {
 	multInsert := false
 
 	fmt.Fprintf(w, "{")

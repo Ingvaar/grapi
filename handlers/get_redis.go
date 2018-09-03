@@ -1,9 +1,11 @@
-package main
+package handlers
 
 import (
 	"fmt"
 	"github.com/gorilla/mux"
 	"net/http"
+
+	"grapi/db"
 )
 
 // getRedis : do a hget with a json array passed in the body
@@ -16,7 +18,7 @@ func getRedis(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Fprintf(w, "{")
 	for key := range jsonmap {
-		reply, err := redisCli.Cmd("HGET", id, key).Str()
+		reply, err := db.Db.Redis.Cmd("HGET", id, key).Str()
 		if err != nil {
 			w.WriteHeader(http.StatusBadRequest)
 		} else {

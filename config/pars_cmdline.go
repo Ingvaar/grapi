@@ -1,4 +1,4 @@
-package main
+package config
 
 import (
 	"flag"
@@ -11,17 +11,15 @@ type Options struct {
 }
 
 // ParsCmdline : Pars the flags from the cmdline and returns an Options struct
-func ParsCmdline() Options {
-	var opt Options
+func ParsCmdline() {
 
-	flag.StringVar(&opt.RoutesFile,
+	flag.StringVar(&Cfg.Options.RoutesFile,
 		"routes",
 		"./routes.json",
 		"Path to routes config file (json)")
-	flag.StringVar(&opt.ConfigFile,
+	flag.StringVar(&Cfg.Options.ConfigFile,
 		"config",
 		"./config.json",
 		"Path to api config file (json)")
 	flag.Parse()
-	return opt
 }

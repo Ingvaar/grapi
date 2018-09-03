@@ -1,12 +1,15 @@
-package main
+package handlers
 
 import (
 	"fmt"
 	"github.com/gorilla/mux"
 	"net/http"
+
+	"grapi/db"
 )
 
 func createLineSQL(w http.ResponseWriter, r *http.Request) {
+	var db db.Database
 	jsonmap := jsonToMap(w, r)
 	pathVars := mux.Vars(r)
 	tabName := pathVars["table"]
@@ -24,7 +27,7 @@ func createLineSQL(w http.ResponseWriter, r *http.Request) {
 		multInsert = true
 	}
 	statement = fmt.Sprintf("%s) %s);", statement, values)
-	_, err := dbSQL.Exec(statement)
+	_, err := db.SQL.Exec(statement)
 	if err != nil {
 		fmt.Fprintf(w, "%s\n", err)
 		w.WriteHeader(http.StatusBadRequest)

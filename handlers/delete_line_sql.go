@@ -1,10 +1,12 @@
-package main
+package handlers
 
 import (
 	"fmt"
 	"github.com/gorilla/mux"
 	"net/http"
 	"strconv"
+
+	"grapi/db"
 )
 
 func deleteLineSQL(w http.ResponseWriter, r *http.Request) {
@@ -17,7 +19,7 @@ func deleteLineSQL(w http.ResponseWriter, r *http.Request) {
 	if errAtoi != nil {
 		fmt.Fprintf(w, "Error: invalid id '%s'\n", id)
 	} else {
-		_, err := dbSQL.Query(statement)
+		_, err := db.Db.SQL.Query(statement)
 		if err != nil {
 			fmt.Fprintf(w, "%s", err)
 		} else {
