@@ -6,7 +6,7 @@ import (
 
 	"github.com/gorilla/mux"
 
-	"github.com/ingvaar/grapi/db"
+	"grapi/db"
 )
 
 // getAllRedis : do a hgetall on the id passed in the url an return a json array

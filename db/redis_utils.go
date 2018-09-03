@@ -6,7 +6,7 @@ import (
 
 	"github.com/mediocregopher/radix.v2/redis"
 
-	c "github.com/ingvaar/grapi/config"
+	c "grapi/config"
 )
 
 // OpenRedis : Connect to the redis server with config file infos

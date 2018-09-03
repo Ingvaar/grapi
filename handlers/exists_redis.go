@@ -6,7 +6,7 @@ import (
 
 	"github.com/gorilla/mux"
 
-	"github.com/ingvaar/grapi/db"
+	"grapi/db"
 )
 
 // existsRedis : do an exists on the id passed in the url an http response code

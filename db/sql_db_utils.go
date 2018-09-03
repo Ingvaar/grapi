@@ -8,7 +8,7 @@ import (
 	// Importing MySQL driver
 	_ "github.com/go-sql-driver/mysql"
 
-	c "github.com/ingvaar/grapi/config"
+	c "grapi/config"
 )
 
 // OpenSQLDatabase : open a connection to the SQL database

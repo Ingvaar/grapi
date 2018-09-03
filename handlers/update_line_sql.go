@@ -6,7 +6,7 @@ import (
 
 	"github.com/gorilla/mux"
 
-	"github.com/ingvaar/grapi/db"
+	"grapi/db"
 )
 
 func updateLineSQL(w http.ResponseWriter, r *http.Request) {

@@ -6,7 +6,7 @@ import (
 
 	"github.com/gorilla/mux"
 
-	"github.com/ingvaar/grapi/db"
+	"grapi/db"
 )
 
 // setEntryRedis : use the hmset cmd from redis with a json passed as body

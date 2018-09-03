@@ -8,7 +8,7 @@ import (
 
 	"github.com/gorilla/mux"
 
-	"github.com/ingvaar/grapi/db"
+	"grapi/db"
 )
 
 type colStruct struct {
@@ -24,13 +24,15 @@ func getTableSQL(w http.ResponseWriter, r *http.Request) {
 	statement := fmt.Sprintf("SELECT * FROM %s", tabName)
 
 	rows, err := db.Db.SQL.Query(statement)
-	defer rows.Close()
-	colNames, errCol := rows.Columns()
-	if err != nil || errCol != nil {
+	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		fmt.Fprintf(w, "%s", err)
 	} else {
-		PrintRows(colNames, rows, w)
+		defer rows.Close()
+		colNames, errCol := rows.Columns()
+		if errCol == nil {
+			PrintRows(colNames, rows, w)
+		}
 	}
 }
 

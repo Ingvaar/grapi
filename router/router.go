@@ -7,7 +7,7 @@ import (
 
 	"github.com/gorilla/mux"
 
-	"github.com/ingvaar/grapi/handlers"
+	"grapi/handlers"
 )
 
 // Route : struct for the routes config file

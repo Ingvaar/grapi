@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/ingvaar/grapi/config"
-	"github.com/ingvaar/grapi/db"
+	"grapi/config"
+	"grapi/db"
 )
 
 func status(w http.ResponseWriter, r *http.Request) {
