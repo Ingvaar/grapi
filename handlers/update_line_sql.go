@@ -2,10 +2,11 @@ package handlers
 
 import (
 	"fmt"
-	"github.com/gorilla/mux"
 	"net/http"
 
-	"grapi/db"
+	"github.com/gorilla/mux"
+
+	"github.com/ingvaar/grapi/db"
 )
 
 func updateLineSQL(w http.ResponseWriter, r *http.Request) {

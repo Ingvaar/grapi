@@ -4,9 +4,9 @@ import (
 	"log"
 	"net/http"
 
-	c "grapi/config"
-	"grapi/db"
-	r "grapi/router"
+	c "github.com/ingvaar/grapi/config"
+	"github.com/ingvaar/grapi/db"
+	r "github.com/ingvaar/grapi/router"
 )
 
 func main() {

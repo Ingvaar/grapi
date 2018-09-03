@@ -6,7 +6,7 @@ import (
 	"log"
 	"os"
 
-	"grapi/config"
+	"github.com/ingvaar/grapi/config"
 )
 
 func createRoutes() Routes {

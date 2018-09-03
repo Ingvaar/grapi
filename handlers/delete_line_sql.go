@@ -2,11 +2,12 @@ package handlers
 
 import (
 	"fmt"
-	"github.com/gorilla/mux"
 	"net/http"
 	"strconv"
 
-	"grapi/db"
+	"github.com/gorilla/mux"
+
+	"github.com/ingvaar/grapi/db"
 )
 
 func deleteLineSQL(w http.ResponseWriter, r *http.Request) {

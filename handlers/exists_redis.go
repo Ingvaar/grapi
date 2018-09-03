@@ -2,10 +2,11 @@ package handlers
 
 import (
 	"fmt"
-	"github.com/gorilla/mux"
 	"net/http"
 
-	"grapi/db"
+	"github.com/gorilla/mux"
+
+	"github.com/ingvaar/grapi/db"
 )
 
 // existsRedis : do an exists on the id passed in the url an http response code

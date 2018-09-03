@@ -1,12 +1,13 @@
 package router
 
 import (
-	"github.com/gorilla/mux"
 	"log"
 	"net/http"
 	"os"
 
-	"grapi/handlers"
+	"github.com/gorilla/mux"
+
+	"github.com/ingvaar/grapi/handlers"
 )
 
 // Route : struct for the routes config file

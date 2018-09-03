@@ -2,10 +2,11 @@ package handlers
 
 import (
 	"fmt"
-	"github.com/gorilla/mux"
 	"net/http"
 
-	"grapi/db"
+	"github.com/gorilla/mux"
+
+	"github.com/ingvaar/grapi/db"
 )
 
 // getRedis : do a hget with a json array passed in the body

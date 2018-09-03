@@ -2,10 +2,11 @@ package handlers
 
 import (
 	"fmt"
-	"github.com/gorilla/mux"
 	"net/http"
 
-	"grapi/db"
+	"github.com/gorilla/mux"
+
+	"github.com/ingvaar/grapi/db"
 )
 
 // setEntryRedis : use the hmset cmd from redis with a json passed as body
