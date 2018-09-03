@@ -14,5 +14,8 @@ before_install:
         - go get github.com/mediocregopher/radix.v2/redis
         - go get github.com/gorilla/mux
 
+install:
+        go get
+
 script:
         go build
