@@ -8,7 +8,7 @@ import (
 
 // Database : struct containing the SQL and Redis database
 type Database struct {
-	SQL *sql.DB
+	SQL   *sql.DB
 	Redis *redis.Client
 }
 

@@ -11,8 +11,8 @@ import (
 
 // Route : struct for the routes config file
 type Route struct {
-	Name	    string `json:"name"`
-	Method	    string `json:"method"`
+	Name        string `json:"name"`
+	Method      string `json:"method"`
 	Pattern     string `json:"pattern"`
 	HandlerFunc string `json:"handler"`
 }

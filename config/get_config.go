@@ -11,12 +11,12 @@ import (
 type Config struct {
 	Options
 
-	Redis	      int    `json:"redis"`
+	Redis         int    `json:"redis"`
 	RedisConnType string `json:"redis_conn_type"`
 	RedisAddress  string `json:"redis_address"`
 	RedisPort     string `json:"redis_port"`
 	RedisPassword string `json:"redis_password"`
-	UseSQL	      int    `json:"sql"`
+	UseSQL        int    `json:"sql"`
 	AddressSQL    string `json:"sql_address"`
 	UsernameSQL   string `json:"sql_username"`
 	PasswordSQL   string `json:"sql_password"`
