@@ -8,5 +8,5 @@ notifications:
 
 before_install:
         - go get github.com/go-sql-driver/mysql
-        - go get github.com/github.com/mediocregopher/radix.v2/redis
+        - go get github.com/mediocregopher/radix.v2/redis
         - go get github.com/gorilla/mux
