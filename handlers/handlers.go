@@ -16,8 +16,7 @@ var HandlerFunc = map[string]http.HandlerFunc{
 	"insert":	sql.Insert,
 	"delete":	sql.Delete,
 	"update":	sql.Update,
-	"create":	nosql.Create,
+	"set":		nosql.Set,
 	"read":		nosql.Read,
-	"updatenosql":	nosql.Update,
-	"deletenosql":	nosql.Delete,
+	"remove":	nosql.Delete,
 }

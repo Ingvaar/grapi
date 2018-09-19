@@ -10,9 +10,9 @@ import (
 	"grapi/utils"
 )
 
-// Create : use the hmset cmd from redis with a json passed as body
+// Set : use the hmset cmd from redis with a json passed as body
 // and with {type}:{id} as the id of the entry
-func Create(w http.ResponseWriter, r *http.Request) {
+func Set(w http.ResponseWriter, r *http.Request) {
 	jsonmap := j.ToMap(w, r)
 	id := mux.Vars(r)["type"] + ":" + mux.Vars(r)["id"]
 
