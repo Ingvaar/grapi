@@ -1,67 +1,64 @@
-package handlers
+package sql
 
 import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"grapi/utils"
 	"net/http"
-
-	"github.com/gorilla/mux"
-
-	"grapi/db"
+	"strconv"
+	"strings"
 )
 
 type colStruct struct {
-	colPtr     []interface{}
+	colPtr	   []interface{}
 	colCount   int
 	colNames   []string
 	rowContent map[string]string
 }
 
-func getTableSQL(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	tabName := vars["table"]
-	statement := fmt.Sprintf("SELECT * FROM %s", tabName)
-
-	rows, err := db.Db.SQL.Query(statement)
-	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		fmt.Fprintf(w, "%s", err)
+// PrintOne : function to print one row from a table
+func PrintOne(colNames []string, rows *sql.Rows,
+	w http.ResponseWriter) {
+	rows.Next()
+	colsMap := createMap(colNames)
+	colsMap.updateMap(rows)
+	cols := colsMap.fillFromMap()
+	jsonStr, jsonErr := json.Marshal(cols)
+	if jsonErr == nil {
+		fmt.Fprintf(w, "%s", jsonStr)
 	} else {
-		defer rows.Close()
-		colNames, errCol := rows.Columns()
-		if errCol == nil {
-			PrintRows(colNames, rows, w)
-		}
+		w.WriteHeader(http.StatusInternalServerError)
+		utils.ErrorToJSON(w, jsonErr)
 	}
 }
 
-// PrintRows : print multiple rows from a table
-func PrintRows(colNames []string, rows *sql.Rows,
+// PrintMult : print multiple rows from a table
+func printMult(colNames []string, rows *sql.Rows,
 	w http.ResponseWriter) {
-	colsMap := CreateColsMap(colNames)
+	colsMap := createMap(colNames)
 	fmt.Fprintf(w, "[")
 	multRows := false
 	for rows.Next() {
 		if multRows {
 			fmt.Fprintf(w, ",")
 		}
-		colsMap.UpdateColMap(rows)
-		cols := colsMap.GetColsFromMap()
+		colsMap.updateMap(rows)
+		cols := colsMap.fillFromMap()
 		jsonStr, jsonErr := json.Marshal(cols)
 		if jsonErr == nil {
 			fmt.Fprintf(w, "%s", jsonStr)
 		} else {
 			w.WriteHeader(http.StatusInternalServerError)
-			fmt.Fprintln(w, jsonErr)
+			utils.ErrorToJSON(w, jsonErr)
 		}
 		multRows = true
 	}
 	fmt.Fprintf(w, "]")
 }
 
-// CreateColsMap : creates maps of the columns
-func CreateColsMap(columns []string) *colStruct {
+// CreateMap : creates maps of the columns
+func createMap(columns []string) *colStruct {
 	colLen := len(columns)
 	colStruct := &colStruct{
 		colPtr:     make([]interface{}, colLen),
@@ -76,7 +73,7 @@ func CreateColsMap(columns []string) *colStruct {
 	return (colStruct)
 }
 
-func (colStruct *colStruct) UpdateColMap(rows *sql.Rows) error {
+func (colStruct *colStruct) updateMap(rows *sql.Rows) error {
 	err := rows.Scan(colStruct.colPtr...)
 
 	if err != nil {
@@ -96,6 +93,18 @@ func (colStruct *colStruct) UpdateColMap(rows *sql.Rows) error {
 	return (nil)
 }
 
-func (colStruct *colStruct) GetColsFromMap() map[string]string {
+func (colStruct *colStruct) fillFromMap() map[string]string {
 	return (colStruct.rowContent)
+}
+
+// ProcessStr : format the str to match sql request
+func ProcessStr(str string) string {
+	_, err := strconv.Atoi(str)
+	if err != nil {
+		str = strings.Replace(str, `\`, `\\`, -1)
+		str = strings.Replace(str, `'`, `\'`, -1)
+		str = strings.Replace(str, `"`, `\"`, -1)
+		str = `"` + str + `"`
+	}
+	return (str)
 }

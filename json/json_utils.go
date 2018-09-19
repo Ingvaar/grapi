@@ -1,4 +1,4 @@
-package handlers
+package json
 
 import (
 	"encoding/json"
@@ -8,8 +8,8 @@ import (
 	"strings"
 )
 
-// jsonToMap : convert a json array to a map
-func jsonToMap(w http.ResponseWriter, r *http.Request) map[string]interface{} {
+// ToMap : convert a json array to a map
+func ToMap(w http.ResponseWriter, r *http.Request) map[string]interface{} {
 	jsonMap := make(map[string]interface{})
 	body, err := ioutil.ReadAll(r.Body)
 
@@ -20,9 +20,9 @@ func jsonToMap(w http.ResponseWriter, r *http.Request) map[string]interface{} {
 	return (jsonMap)
 }
 
-// printMapToJSON : print a json array from a map
+// PrintMapToJSON : print a json array from a map
 // to the specified http response writer
-func printMapToJSON(w http.ResponseWriter, redisMap map[string]string) {
+func PrintMapToJSON(w http.ResponseWriter, redisMap map[string]interface{}) {
 	multInsert := false
 
 	fmt.Fprintf(w, "{")
@@ -30,7 +30,7 @@ func printMapToJSON(w http.ResponseWriter, redisMap map[string]string) {
 		if multInsert {
 			fmt.Fprintf(w, ", ")
 		}
-		fmt.Fprintf(w, "\"%s\":\"%s\"", key, value)
+		fmt.Fprintf(w, "\"%s\":\"%v\"", key, value)
 		multInsert = true
 	}
 	fmt.Fprintf(w, "}")

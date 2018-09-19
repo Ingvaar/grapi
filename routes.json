@@ -12,51 +12,51 @@
 		"handler":	"index"
 	},
 	{
-		"name": 	"GetTableSQL",
+		"name": 	"Show",
 		"method":	"GET",
 		"pattern":	"/sql/{table}",
-		"handler":	"getTableSQL"
+		"handler":	"show"
 	},
 	{
-		"name": 	"GetLineSQL",
+		"name": 	"Select",
 		"method":	"GET",
 		"pattern":	"/sql/{table}/{id}",
-		"handler":	"getLineSQL"
+		"handler":	"select"
 	},
 	{
-		"name": 	"CreateLineSQL",
+		"name": 	"Insert",
 		"method":	"POST",
 		"pattern":	"/sql/{table}/{id}",
-		"handler":	"createLineSQL"
+		"handler":	"insert"
 	},
 	{
-		"name": 	"DeleteLineSQL",
+		"name": 	"DeleteSQL",
 		"method":	"DELETE",
 		"pattern":	"/sql/{table}/{id}",
-		"handler":	"deleteLineSQL"
+		"handler":	"delete"
 	},
 	{
-		"name": 	"UpdateLineSQL",
+		"name": 	"UpdateSQL",
 		"method":	"PUT",
 		"pattern":	"/sql/{table}/{id}",
-		"handler":	"updateLineSQL"
+		"handler":	"update"
 	},
 	{
-		"name": 	"setEntryRedis",
+		"name": 	"Create",
 		"method":	"POST",
-		"pattern":	"/redis/{type}/{id}",
-		"handler":	"setEntryRedis"
+		"pattern":	"/nosql/{type}/{id}",
+		"handler":	"create"
 	},
 	{
-		"name": 	"getAllRedis",
+		"name": 	"Update",
 		"method":	"GET",
-		"pattern":	"/redis/{type}/{id}",
-		"handler":	"getAllRedis"
+		"pattern":	"/nosql/{type}/{id}",
+		"handler":	"updatenosql"
 	},
 	{
-		"name": 	"getRedis",
+		"name": 	"Read",
 		"method":	"VIEW",
 		"pattern":	"/redis/{type}/{id}",
-		"handler":	"getRedis"
+		"handler":	"read"
 	}
 ]

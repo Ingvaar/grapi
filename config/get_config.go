@@ -7,16 +7,16 @@ import (
 	"os"
 )
 
-// Config : struct of the config file
-type Config struct {
+// config : struct of the config file
+type config struct {
 	Options
 
-	Redis         int    `json:"redis"`
-	RedisConnType string `json:"redis_conn_type"`
-	RedisAddress  string `json:"redis_address"`
-	RedisPort     string `json:"redis_port"`
-	RedisPassword string `json:"redis_password"`
-	UseSQL        int    `json:"sql"`
+	NoSQL	      int    `json:"nosql"`
+	NoSQLConnType string `json:"nosql_conn_type"`
+	NoSQLAddress  string `json:"nosql_address"`
+	NoSQLPort     string `json:"nosql_port"`
+	NoSQLPassword string `json:"nosql_password"`
+	UseSQL	      int    `json:"sql"`
 	AddressSQL    string `json:"sql_address"`
 	UsernameSQL   string `json:"sql_username"`
 	PasswordSQL   string `json:"sql_password"`
@@ -25,7 +25,7 @@ type Config struct {
 }
 
 // Cfg : global var of Config struct
-var Cfg Config
+var Cfg config
 
 // GetConfig : returns the config struct from config file
 // path in Options struct

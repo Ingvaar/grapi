@@ -11,8 +11,8 @@ import (
 	c "grapi/config"
 )
 
-// OpenSQLDatabase : open a connection to the SQL database
-func OpenSQLDatabase() {
+// OpenSQL : open a connection to the SQL database
+func OpenSQL() {
 	connectionStr := fmt.Sprintf("%s:%s@tcp(%s)/%s",
 		c.Cfg.UsernameSQL,
 		c.Cfg.PasswordSQL,
@@ -22,13 +22,13 @@ func OpenSQLDatabase() {
 	var ping error
 
 	if c.Cfg.UseSQL == 0 {
-		Db.SQL = nil
+		SQL = nil
 		return
 	}
-	Db.SQL, err = sql.Open("mysql", connectionStr)
-	ping = Db.SQL.Ping()
+	SQL, err = sql.Open("mysql", connectionStr)
+	ping = SQL.Ping()
 	if err != nil || ping != nil {
-		defer Db.SQL.Close()
+		defer SQL.Close()
 		log.Fatal("Cannot connect to SQL database")
 	}
 	log.Printf("SQL Database connected with address %s\n", c.Cfg.AddressSQL)

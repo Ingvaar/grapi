@@ -9,7 +9,7 @@ import (
 )
 
 func status(w http.ResponseWriter, r *http.Request) {
-	sqlErr := db.Db.SQL.Ping()
+	sqlErr := db.SQL.Ping()
 
 	if sqlErr == nil {
 		fmt.Fprintln(w, "SQL Database connected")

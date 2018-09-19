@@ -12,12 +12,12 @@ import (
 func main() {
 	c.ParsCmdline()
 	c.GetConfig()
-	db.OpenSQLDatabase()
-	db.OpenRedis()
+	db.OpenSQL()
+	db.OpenNoSQL()
 	r.NewRouter()
 
-	defer db.Db.SQL.Close()
-	defer db.Db.Redis.Close()
+	defer db.SQL.Close()
+	defer db.Nosql.Close()
 	log.Printf("Server started on port %v", c.Cfg.ServerPort)
 	log.Fatal(http.ListenAndServe(":8080", r.Router))
 }

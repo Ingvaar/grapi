@@ -9,20 +9,20 @@ import (
 	c "grapi/config"
 )
 
-// OpenRedis : Connect to the redis server with config file infos
-func OpenRedis() {
+// OpenNoSQL : Connect to the redis server with config file infos
+func OpenNoSQL() {
 	connectionStr := fmt.Sprintf("%s:%s",
-		c.Cfg.RedisAddress,
-		c.Cfg.RedisPort)
+		c.Cfg.NoSQLAddress,
+		c.Cfg.NoSQLPort)
 	var err error
 
-	if c.Cfg.Redis == 0 {
-		Db.Redis = nil
+	if c.Cfg.NoSQL == 0 {
+		Nosql = nil
 		return
 	}
-	Db.Redis, err = redis.Dial(c.Cfg.RedisConnType, connectionStr)
+	Nosql, err = redis.Dial(c.Cfg.NoSQLConnType, connectionStr)
 	if err != nil {
-		defer Db.Redis.Close()
+		defer Nosql.Close()
 		log.Fatal("Cannot connect to redis")
 	}
 	log.Printf("Redis connected with address: %s\n", connectionStr)
