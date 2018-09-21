@@ -1,13 +1,18 @@
 {
-	"redis": 0,
-	"redis_conn_type": "tcp",
-	"redis_address": "",
-	"redis_port": "6379",
-	"redis_password": "",
+	"nosql": 0,
+	"nosql_conn_type": "tcp",
+	"nosql_address": "",
+	"nosql_port": "6379",
+	"nosql_password": "",
 	"sql": 1,
 	"sql_address": 	"127.0.0.1:3306",
 	"sql_username":	"root",
 	"sql_password":	"",
-	"sql_database": "db",
-	"server_port": 	"8080"
+	"sql_database": "",
+	"server_port": 	"8080",
+	"auth_table": "users",
+	"auth_user_field": "username",
+	"auth_password_field": "password",
+	"auth_level_field": "auth_level",
+	"secret": "xxx"
 }

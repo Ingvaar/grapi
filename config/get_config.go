@@ -22,6 +22,11 @@ type config struct {
 	PasswordSQL   string `json:"sql_password"`
 	DatabaseSQL   string `json:"sql_database"`
 	ServerPort    string `json:"server_port"`
+	AuthTable     string `json:"auth_table"`
+	AuthUserField string `json:"auth_user_field"`
+	AuthPassField string `json:"auth_password_field"`
+	AuthLevel     string `json:"auth_level_field"`
+	Secret	      string `json:"secret"`
 }
 
 // Cfg : global var of Config struct
@@ -34,11 +39,13 @@ func GetConfig() {
 
 	if err == nil {
 		raw, err := ioutil.ReadFile(Cfg.Options.ConfigFile)
-
 		if err != nil {
-			log.Fatal("Error while reading config file\n")
+			log.Fatal(err)
 		}
-		json.Unmarshal([]byte(raw), &Cfg)
+		err = json.Unmarshal([]byte(raw), &Cfg)
+		if err != nil {
+			log.Fatal(err)
+		}
 	} else {
 		log.Fatal(err)
 	}

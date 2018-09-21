@@ -26,7 +26,7 @@
 	{
 		"name": 	"Insert",
 		"method":	"POST",
-		"pattern":	"/sql/{table}/{id}",
+		"pattern":	"/sql/{table}",
 		"handler":	"insert"
 	},
 	{
@@ -58,5 +58,11 @@
 		"method":	"VIEW",
 		"pattern":	"/redis/{type}/{id}",
 		"handler":	"read"
+	},
+	{
+		"name": 	"Authentification",
+		"method": 	"POST",
+		"pattern": 	"/login",
+		"handler": 	"login"
 	}
 ]
