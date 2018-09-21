@@ -28,6 +28,7 @@ Currently, there are *9* handlers:
 * **exists**: check if the specified entry exists and return `200` if successful.
 * **read**: returns the entry located by `{type}/{id}` passed in the url as a json array.
 * **remove**: deletes the entry located by `{type}/{id}` passed in the url as a json array.
+* **login**: returns a json token uppon connection.
 
 To start the API, use:
 
