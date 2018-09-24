@@ -15,7 +15,7 @@ There are 3 keywords to use in the url for the routes:
 * `{table}`: tell the API to search for the table passed here.
 * `{id}`: tell the API to search for the id passed here. 
 
-Currently, there are *9* handlers:
+Currently, there are *12* handlers:
 * **status**: returns the status of the api as basic html text.
 * **index**: says welcome !
 * **select**: returns a SQL line, defined by the id and the table passed in the url, as a json array and html code `200` if successful.
