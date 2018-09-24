@@ -8,11 +8,11 @@
 	"sql_address": 	"127.0.0.1:3306",
 	"sql_username":	"root",
 	"sql_password":	"",
-	"sql_database": "",
+	"sql_database": "db",
 	"server_port": 	"8080",
 	"auth_table": "users",
 	"auth_user_field": "username",
 	"auth_password_field": "password",
-	"auth_level_field": "auth_level",
+	"auth_level_field": "level",
 	"secret": "xxx"
 }

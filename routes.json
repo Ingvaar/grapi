@@ -3,66 +3,87 @@
 		"name": 	"Status",
 		"method":	"GET",
 		"pattern":	"/status",
-		"handler":	"status"
+		"handler":	"status",
+		"auth_req": 	1
 	},
 	{
 		"name": 	"Index",
 		"method":	"GET",
 		"pattern":	"/",
-		"handler":	"index"
+		"handler":	"index",
+		"auth_req": 	0
+
 	},
 	{
 		"name": 	"Show",
 		"method":	"GET",
 		"pattern":	"/sql/{table}",
-		"handler":	"show"
+		"handler":	"show",
+		"auth_req": 	2
+
 	},
 	{
 		"name": 	"Select",
 		"method":	"GET",
 		"pattern":	"/sql/{table}/{id}",
-		"handler":	"select"
+		"handler":	"select",
+		"auth_req": 	2
+
 	},
 	{
 		"name": 	"Insert",
 		"method":	"POST",
 		"pattern":	"/sql/{table}",
-		"handler":	"insert"
+		"handler":	"insert",
+		"auth_req": 	3
+
 	},
 	{
 		"name": 	"DeleteSQL",
 		"method":	"DELETE",
 		"pattern":	"/sql/{table}/{id}",
-		"handler":	"delete"
+		"handler":	"delete",
+		"auth_req": 	3
+
 	},
 	{
 		"name": 	"UpdateSQL",
 		"method":	"PUT",
 		"pattern":	"/sql/{table}/{id}",
-		"handler":	"update"
+		"handler":	"update",
+		"auth_req": 	3
+
 	},
 	{
 		"name": 	"Create",
 		"method":	"POST",
 		"pattern":	"/nosql/{type}/{id}",
-		"handler":	"create"
+		"handler":	"create",
+		"auth_req": 	2
+
 	},
 	{
 		"name": 	"Update",
 		"method":	"GET",
 		"pattern":	"/nosql/{type}/{id}",
-		"handler":	"updatenosql"
+		"handler":	"updatenosql",
+		"auth_req": 	2
+
 	},
 	{
 		"name": 	"Read",
 		"method":	"VIEW",
 		"pattern":	"/redis/{type}/{id}",
-		"handler":	"read"
+		"handler":	"read",
+		"auth_req": 	2
+
 	},
 	{
 		"name": 	"Authentification",
 		"method": 	"POST",
 		"pattern": 	"/login",
-		"handler": 	"login"
+		"handler": 	"login",
+		"auth_req": 	0
+
 	}
 ]

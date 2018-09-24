@@ -8,14 +8,16 @@ import (
 	"github.com/gorilla/mux"
 
 	"grapi/handlers"
+	m "grapi/middlewares"
 )
 
 // Route : struct for the routes config file
 type Route struct {
-	Name        string `json:"name"`
-	Method      string `json:"method"`
+	Name	    string `json:"name"`
+	Method	    string `json:"method"`
 	Pattern     string `json:"pattern"`
 	HandlerFunc string `json:"handler"`
+	Level	    int    `json:"auth_req"`
 }
 
 // Routes : declares the type of an array of Route
@@ -32,7 +34,7 @@ func NewRouter() {
 
 	if routes != nil {
 		for _, route := range routes {
-			handler = handlers.HandlerFunc[route.HandlerFunc]
+			handler = m.ValidateMiddleware(route.Level, handlers.HandlerFunc[route.HandlerFunc])
 			handler = Logger(handler, route.Name)
 			Router.
 				Methods(route.Method).

@@ -37,7 +37,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"id":	    authStruct.id,
+		"id":       authStruct.id,
 		"username": authStruct.user,
 		"password": authStruct.pass,
 		"level":    authStruct.level,
@@ -46,43 +46,47 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		utils.ErrorToJSON(w, err)
+		return
 	}
 	json.NewEncoder(w).Encode(JwtToken{Token: tokenString})
 }
 
 func checkCredentials(form url.Values) (*auth, error) {
-	username := form["username"][0]
-	pass := []byte(form["password"][0])
+	var username string
+	var pass []byte
 	authStruct := new(auth)
 
+	if form["username"] != nil && form["password"] != nil {
+		username = form["username"][0]
+		pass = []byte(form["password"][0])
+	} else {
+		err := errors.New("Bad request")
+		return nil, err
+	}
 	statement := "SELECT id, " + c.Cfg.AuthUserField +
 		", " + c.Cfg.AuthPassField +
 		", " + c.Cfg.AuthLevel +
 		" FROM " + c.Cfg.AuthTable +
 		" WHERE " + c.Cfg.AuthUserField + "=\"" + username + "\""
 	rows, err := db.SQL.Query(statement)
-	defer rows.Close()
 	if err != nil {
-		return authStruct, err
+		err = errors.New("Database Error")
+		return nil, err
 	}
+	defer rows.Close()
 	result, err := utils.RowsToMap(rows)
 	if err != nil {
-		return authStruct, err
+		return nil, err
 	}
 	hash := result["password"].([]uint8)
 	err = bcrypt.CompareHashAndPassword(hash, pass)
 	if err != nil {
 		err = errors.New("Wrong password")
+		return nil, err
 	}
 	authStruct.user = username
 	authStruct.pass = string(hash)
 	authStruct.level = utils.RContToInt(result["level"].([]uint8))
 	authStruct.id = utils.RContToInt(result["id"].([]uint8))
 	return authStruct, err
-}
-
-func hashPassword(password string) string {
-	var hash string
-
-	return hash
 }
