@@ -11,12 +11,12 @@ import (
 type config struct {
 	Options
 
-	NoSQL	      int    `json:"nosql"`
+	NoSQL         int    `json:"nosql"`
 	NoSQLConnType string `json:"nosql_conn_type"`
 	NoSQLAddress  string `json:"nosql_address"`
 	NoSQLPort     string `json:"nosql_port"`
 	NoSQLPassword string `json:"nosql_password"`
-	UseSQL	      int    `json:"sql"`
+	UseSQL        int    `json:"sql"`
 	AddressSQL    string `json:"sql_address"`
 	UsernameSQL   string `json:"sql_username"`
 	PasswordSQL   string `json:"sql_password"`
@@ -26,7 +26,7 @@ type config struct {
 	AuthUserField string `json:"auth_user_field"`
 	AuthPassField string `json:"auth_password_field"`
 	AuthLevel     string `json:"auth_level_field"`
-	Secret	      string `json:"secret"`
+	Secret        string `json:"secret"`
 }
 
 // Cfg : global var of Config struct

@@ -8,5 +8,6 @@ import (
 
 // SQL : SQL database
 var SQL *sql.DB
+
 // Nosql : nosql database
 var Nosql *redis.Client
