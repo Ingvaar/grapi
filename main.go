@@ -1,12 +1,10 @@
 package main
 
 import (
-	"log"
-	"net/http"
-
 	c "grapi/config"
 	"grapi/db"
 	r "grapi/router"
+	s "grapi/server"
 )
 
 func main() {
@@ -18,6 +16,5 @@ func main() {
 
 	defer db.SQL.Close()
 	defer db.Nosql.Close()
-	log.Printf("Server started on port %v", c.Cfg.ServerPort)
-	log.Fatal(http.ListenAndServe(":8080", r.Router))
+	s.StartServer()
 }
