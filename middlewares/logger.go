@@ -3,7 +3,10 @@ package middlewares
 import (
 	"log"
 	"net/http"
+	"os"
 	"time"
+
+	c "grapi/config"
 )
 
 // Logger : Prints logs of the server
@@ -12,11 +15,27 @@ func Logger(inner http.Handler, name string) http.Handler {
 		start := time.Now()
 
 		inner.ServeHTTP(w, r)
+		log.SetOutput(os.Stdout)
 		log.Printf("%s\t%s\t%s\t%s\t%s",
 			r.RemoteAddr,
 			r.Method,
 			r.RequestURI,
 			name,
 			time.Since(start))
+
+		if c.Cfg.LogFile != "" {
+			f, err := os.OpenFile(c.Cfg.LogFile, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+			if err != nil {
+				log.Printf("Error opening file: %v", err)
+			}
+			defer f.Close()
+			log.SetOutput(f)
+			log.Printf("%s\t%s\t%s\t%s\t%s",
+				r.RemoteAddr,
+				r.Method,
+				r.RequestURI,
+				name,
+				time.Since(start))
+		}
 	})
 }

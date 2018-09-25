@@ -31,6 +31,7 @@ type config struct {
 	HTTPS	      int    `json:"https"`
 	HTTPSOnly     int    `json:"https_only"`
 	CertsDir      string `json:"certs_dir"`
+	LogFile       string `json:"logfile"`
 }
 
 // Cfg : global var of Config struct
