@@ -32,10 +32,11 @@ func StartServer() {
 			log.Fatal("No cert files found")
 		}
 		if c.Cfg.HTTPSOnly != 0 {
-			log.Printf("Http redirecting on %v%v", address, httpPort)
-			go log.Fatal(http.ListenAndServe(httpPort, http.HandlerFunc(redirectToHTTPS)))
+			log.Printf("Http %v%v redirecting on %v%v", address, httpPort, address, httpsPort)
+			go http.ListenAndServe(httpPort, http.HandlerFunc(redirectToHTTPS))
 		} else {
-			log.Fatal(http.ListenAndServe(httpPort, r.Router))
+			log.Printf("Http server started at %v%v", address, httpPort)
+			go http.ListenAndServe(httpPort, r.Router)
 		}
 		log.Printf("Https server started at %v%v", address, httpsPort)
 		log.Fatal(http.ListenAndServeTLS(httpsPort, cert, key, r.Router))
