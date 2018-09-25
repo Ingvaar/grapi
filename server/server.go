@@ -17,6 +17,7 @@ var certsDir string
 
 // StartServer :
 func StartServer() {
+	checkConfig()
 	httpPort = ":" + c.Cfg.ServerPort
 	address = c.Cfg.ServerAddress
 	certsDir = c.Cfg.CertsDir
@@ -25,7 +26,6 @@ func StartServer() {
 	checkPorts()
 
 	if c.Cfg.HTTPS != 0 {
-		checkConfig()
 		_, err := os.Stat(cert)
 		_, err2 := os.Stat(key)
 		if err != nil || err2 != nil {
@@ -37,7 +37,7 @@ func StartServer() {
 		} else {
 			log.Fatal(http.ListenAndServe(httpPort, r.Router))
 		}
-		log.Printf("HTTPS server started at %v%v", address, httpsPort)
+		log.Printf("Https server started at %v%v", address, httpsPort)
 		go log.Fatal(http.ListenAndServeTLS(httpsPort, cert, key, r.Router))
 	} else {
 		log.Printf("Http server started at %v%v", address, httpPort)
@@ -62,10 +62,11 @@ func checkConfig() {
 }
 
 func checkPorts() {
-	port, err := strconv.Atoi(httpPort)
+	port, err := strconv.Atoi(c.Cfg.ServerPort)
 
 	if err != nil {
 		httpPort = ":8080"
+		port = 8080
 	}
-	httpsPort = string(port + 1)
+	httpsPort = strconv.Itoa(port + 1)
 }
