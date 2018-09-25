@@ -7,6 +7,7 @@ import (
 	"strconv"
 
 	c "grapi/config"
+	m "grapi/middlewares"
 	r "grapi/router"
 )
 
@@ -33,10 +34,10 @@ func StartServer() {
 		}
 		if c.Cfg.HTTPSOnly != 0 {
 			log.Printf("Http server at %v%v redirecting to %v%v", address, httpPort, address, httpsPort)
-			go http.ListenAndServe(address+httpPort, http.HandlerFunc(redirectToHTTPS))
+			go loggedRedirectServer()
 		} else {
 			log.Printf("Http server started at %v%v", address, httpPort)
-			go http.ListenAndServe(address+httpPort, r.Router)
+			go func() { log.Fatal(http.ListenAndServe(address+httpPort, r.Router)) }()
 		}
 		log.Printf("Https server started at %v%v", address, httpsPort)
 		log.Fatal(http.ListenAndServeTLS(httpsPort, cert, key, r.Router))
@@ -44,6 +45,10 @@ func StartServer() {
 		log.Printf("Http server started at %v%v", address, httpPort)
 		log.Fatal(http.ListenAndServe(address+httpPort, r.Router))
 	}
+}
+
+func loggedRedirectServer() {
+	log.Fatal(http.ListenAndServe(address+httpPort, m.Logger(http.HandlerFunc(redirectToHTTPS), "Redirect")))
 }
 
 func redirectToHTTPS(w http.ResponseWriter, r *http.Request) {

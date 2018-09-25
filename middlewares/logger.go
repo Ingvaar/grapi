@@ -1,4 +1,4 @@
-package router
+package middlewares
 
 import (
 	"log"
@@ -12,7 +12,8 @@ func Logger(inner http.Handler, name string) http.Handler {
 		start := time.Now()
 
 		inner.ServeHTTP(w, r)
-		log.Printf("%s\t%s\t%s\t%s",
+		log.Printf("%s\t%s\t%s\t%s\t%s",
+			r.RemoteAddr,
 			r.Method,
 			r.RequestURI,
 			name,
