@@ -9,10 +9,14 @@
 	"sql_username":	"root",
 	"sql_password":	"",
 	"sql_database": "db",
-	"server_port": 	"8080",
 	"auth_table": "users",
 	"auth_user_field": "username",
 	"auth_password_field": "password",
 	"auth_level_field": "level",
-	"secret": "xxx"
+	"secret": "xxx",
+	"https": 0,
+	"https_only": 0,
+	"server_address": "localhost",
+	"server_port": "8080",
+	"certs_dir": "."
 }
