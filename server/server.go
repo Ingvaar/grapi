@@ -29,20 +29,20 @@ func StartServer() {
 		_, err := os.Stat(cert)
 		_, err2 := os.Stat(key)
 		if err != nil || err2 != nil {
-			log.Fatal("No cert files found")
+			log.Fatal("Cert files not found")
 		}
 		if c.Cfg.HTTPSOnly != 0 {
 			log.Printf("Http server at %v%v redirecting to %v%v", address, httpPort, address, httpsPort)
-			go http.ListenAndServe(httpPort, http.HandlerFunc(redirectToHTTPS))
+			go http.ListenAndServe(address+httpPort, http.HandlerFunc(redirectToHTTPS))
 		} else {
 			log.Printf("Http server started at %v%v", address, httpPort)
-			go http.ListenAndServe(httpPort, r.Router)
+			go http.ListenAndServe(address+httpPort, r.Router)
 		}
 		log.Printf("Https server started at %v%v", address, httpsPort)
 		log.Fatal(http.ListenAndServeTLS(httpsPort, cert, key, r.Router))
 	} else {
 		log.Printf("Http server started at %v%v", address, httpPort)
-		log.Fatal(http.ListenAndServe(httpPort, r.Router))
+		log.Fatal(http.ListenAndServe(address+httpPort, r.Router))
 	}
 }
 
@@ -55,7 +55,7 @@ func checkConfig() {
 		log.Fatal("Missing server address in config file")
 	}
 	if c.Cfg.ServerPort == "" {
-		c.Cfg.ServerPort = ":8080"
+		c.Cfg.ServerPort = "8080"
 	}
 	if c.Cfg.CertsDir == "" {
 		c.Cfg.CertsDir = "."
