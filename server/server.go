@@ -70,4 +70,5 @@ func checkPorts() {
 		port = 8080
 	}
 	httpsPort = strconv.Itoa(port + 1)
+	httpsPort = ":" + httpsPort
 }
