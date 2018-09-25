@@ -10,12 +10,11 @@ matrix:
   fast_finish: true
 
 before_install:
-        - go get github.com/go-sql-driver/mysql
-        - go get github.com/mediocregopher/radix.v2/redis
-        - go get github.com/gorilla/mux
-
+        - mv ${TRAVIS_HOME}/gopath/src/github.com/ingvaar/grapi ${TRAVIS_HOME}/gopath/src/grapi
+        - cd ${TRAVIS_HOME}/gopath/src/grapi
+        
 install:
-        go get
+        - go get
 
 script:
         go build
