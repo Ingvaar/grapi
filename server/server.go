@@ -33,12 +33,12 @@ func StartServer() {
 		}
 		if c.Cfg.HTTPSOnly != 0 {
 			log.Printf("Http redirecting on %v%v", address, httpPort)
-			log.Fatal(http.ListenAndServe(httpPort, http.HandlerFunc(redirectToHTTPS)))
+			go log.Fatal(http.ListenAndServe(httpPort, http.HandlerFunc(redirectToHTTPS)))
 		} else {
 			log.Fatal(http.ListenAndServe(httpPort, r.Router))
 		}
 		log.Printf("Https server started at %v%v", address, httpsPort)
-		go log.Fatal(http.ListenAndServeTLS(httpsPort, cert, key, r.Router))
+		log.Fatal(http.ListenAndServeTLS(httpsPort, cert, key, r.Router))
 	} else {
 		log.Printf("Http server started at %v%v", address, httpPort)
 		log.Fatal(http.ListenAndServe(httpPort, r.Router))
