@@ -1,45 +1,52 @@
 package server
 
 import (
-	"crypto/tls"
 	"log"
 	"net/http"
-
-	"golang.org/x/crypto/acme/autocert"
+	"os"
+	"strconv"
 
 	c "grapi/config"
 	r "grapi/router"
 )
 
+var httpPort string
+var httpsPort string
+var address string
+var certsDir string
+
 // StartServer :
 func StartServer() {
-	port := ":" + c.Cfg.ServerPort
-	address := c.Cfg.ServerAddress
-	certsDir := c.Cfg.CertsDir
+	httpPort = ":" + c.Cfg.ServerPort
+	address = c.Cfg.ServerAddress
+	certsDir = c.Cfg.CertsDir
+	cert := certsDir + "/cert.pem"
+	key := certsDir + "/key.pem"
+	checkPorts()
 
 	if c.Cfg.HTTPS != 0 {
 		checkConfig()
-		certManager := autocert.Manager {
-			Prompt:     autocert.AcceptTOS,
-			HostPolicy: autocert.HostWhitelist(address),
-			Cache:	    autocert.DirCache(certsDir),
-		}
-
-		server := &http.Server{
-			Addr: port,
-			TLSConfig: &tls.Config{
-				GetCertificate: certManager.GetCertificate,
-			},
+		_, err := os.Stat(cert)
+		_, err2 := os.Stat(key)
+		if err != nil || err2 != nil {
+			log.Fatal("No cert files found")
 		}
 		if c.Cfg.HTTPSOnly != 0 {
-			go http.ListenAndServe(":http", certManager.HTTPHandler(nil))
+			log.Printf("Http redirecting on %v%v", address, httpPort)
+			log.Fatal(http.ListenAndServe(httpPort, http.HandlerFunc(redirectToHTTPS)))
+		} else {
+			log.Fatal(http.ListenAndServe(httpPort, r.Router))
 		}
-		log.Printf("Server started at address %v on port %v", c.Cfg.ServerAddress, c.Cfg.ServerPort)
-		log.Fatal(server.ListenAndServeTLS("", ""))
+		log.Printf("HTTPS server started at %v%v", address, httpsPort)
+		go log.Fatal(http.ListenAndServeTLS(httpsPort, cert, key, r.Router))
 	} else {
-		log.Printf("Server started on port %v", c.Cfg.ServerPort)
-		log.Fatal(http.ListenAndServe(port, r.Router))
+		log.Printf("Http server started at %v%v", address, httpPort)
+		log.Fatal(http.ListenAndServe(httpPort, r.Router))
 	}
+}
+
+func redirectToHTTPS(w http.ResponseWriter, r *http.Request) {
+	http.Redirect(w, r, "https://"+address+httpPort+r.RequestURI, http.StatusMovedPermanently)
 }
 
 func checkConfig() {
@@ -47,9 +54,18 @@ func checkConfig() {
 		log.Fatal("Missing server address in config file")
 	}
 	if c.Cfg.ServerPort == "" {
-		c.Cfg.ServerPort = ":https"
+		c.Cfg.ServerPort = ":8080"
 	}
 	if c.Cfg.CertsDir == "" {
 		c.Cfg.CertsDir = "."
 	}
+}
+
+func checkPorts() {
+	port, err := strconv.Atoi(httpPort)
+
+	if err != nil {
+		httpPort = ":8080"
+	}
+	httpsPort = string(port + 1)
 }
