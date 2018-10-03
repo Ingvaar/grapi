@@ -15,8 +15,7 @@ func Delete(w http.ResponseWriter, r *http.Request) {
 
 	reply, err := db.Nosql.Cmd("DEL", id).Int()
 	if err != nil {
-		utils.ErrorToJSON(w, err)
-		w.WriteHeader(http.StatusBadRequest)
+		utils.SendResponse(w, err, http.StatusBadRequest)
 	} else if reply == 0 {
 		w.WriteHeader(http.StatusNoContent)
 	} else {

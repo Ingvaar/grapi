@@ -27,8 +27,7 @@ func Update(w http.ResponseWriter, r *http.Request) {
 	statement += " WHERE id=" + mux.Vars(r)["id"] + ";"
 	_, err := db.SQL.Exec(statement)
 	if err != nil {
-		utils.ErrorToJSON(w, err)
-		w.WriteHeader(http.StatusBadRequest)
+		utils.SendResponse(w, err, http.StatusBadRequest)
 	} else {
 		w.WriteHeader(http.StatusOK)
 	}

@@ -7,8 +7,9 @@ import (
 	"strconv"
 )
 
-// ErrorToJSON : print an error in json format to ResponseWriter
-func ErrorToJSON(w http.ResponseWriter, err error) {
+// SendResponse : print an error in json format to ResponseWriter
+func SendResponse(w http.ResponseWriter, err error, status int) {
+	w.WriteHeader(status)
 	fmt.Fprintf(w, "{\"Error\": \"%v\"}", err)
 }
 

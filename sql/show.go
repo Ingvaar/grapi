@@ -16,8 +16,7 @@ func Show(w http.ResponseWriter, r *http.Request) {
 
 	rows, err := db.SQL.Query(statement)
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		utils.ErrorToJSON(w, err)
+		utils.SendResponse(w, err, http.StatusBadRequest)
 	} else {
 		defer rows.Close()
 		colNames, errCol := rows.Columns()

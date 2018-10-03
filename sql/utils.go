@@ -28,8 +28,7 @@ func PrintOne(colNames []string, rows *sql.Rows,
 	if jsonErr == nil {
 		fmt.Fprintf(w, "%s", jsonStr)
 	} else {
-		w.WriteHeader(http.StatusInternalServerError)
-		utils.ErrorToJSON(w, jsonErr)
+		utils.SendResponse(w, jsonErr, http.StatusInternalServerError)
 	}
 }
 
@@ -49,8 +48,7 @@ func printMult(colNames []string, rows *sql.Rows,
 		if jsonErr == nil {
 			fmt.Fprintf(w, "%s", jsonStr)
 		} else {
-			w.WriteHeader(http.StatusInternalServerError)
-			utils.ErrorToJSON(w, jsonErr)
+			utils.SendResponse(w, jsonErr, http.StatusInternalServerError)
 		}
 		multRows = true
 	}

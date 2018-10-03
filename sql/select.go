@@ -37,11 +37,9 @@ func Select(w http.ResponseWriter, r *http.Request) {
 	defer rows.Close()
 	colNames, errCol := rows.Columns()
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		utils.ErrorToJSON(w, err)
+		utils.SendResponse(w, err, http.StatusBadRequest)
 	} else if errCol != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		utils.ErrorToJSON(w, errCol)
+		utils.SendResponse(w, err, http.StatusInternalServerError)
 	} else {
 		PrintOne(colNames, rows, w)
 	}

@@ -32,8 +32,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 	authStruct, err := checkCredentials(r.Form)
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		utils.ErrorToJSON(w, err)
+		utils.SendResponse(w, err, http.StatusBadRequest)
 		return
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
@@ -44,8 +43,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	})
 	tokenString, err := token.SignedString([]byte(c.Cfg.Secret))
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		utils.ErrorToJSON(w, err)
+		utils.SendResponse(w, err, http.StatusInternalServerError)
 		return
 	}
 	json.NewEncoder(w).Encode(JwtToken{Token: tokenString})
