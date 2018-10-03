@@ -23,8 +23,7 @@ func Delete(w http.ResponseWriter, r *http.Request) {
 	} else {
 		_, err := db.SQL.Query(statement)
 		if err != nil {
-			utils.ErrorToJSON(w, err)
-			w.WriteHeader(http.StatusBadRequest)
+			utils.SendResponse(w, err, http.StatusBadRequest)
 		}
 	}
 }

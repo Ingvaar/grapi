@@ -12,7 +12,7 @@ matrix:
 before_install:
         - mv ${TRAVIS_HOME}/gopath/src/github.com/ingvaar/grapi ${TRAVIS_HOME}/gopath/src/grapi
         - cd ${TRAVIS_HOME}/gopath/src/grapi
-        
+
 install:
         - go get
 

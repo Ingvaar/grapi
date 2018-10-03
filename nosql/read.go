@@ -22,8 +22,7 @@ func Read(w http.ResponseWriter, r *http.Request) {
 	for key := range jsonmap {
 		reply, err := db.Nosql.Cmd("HGET", id, key).Str()
 		if err != nil {
-			utils.ErrorToJSON(w, err)
-			w.WriteHeader(http.StatusBadRequest)
+			utils.SendResponse(w, err, http.StatusBadRequest)
 			return
 		}
 		if mult {

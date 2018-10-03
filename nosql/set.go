@@ -19,8 +19,7 @@ func Set(w http.ResponseWriter, r *http.Request) {
 	for key, value := range jsonmap {
 		err := db.Nosql.Cmd("HMSET", id, key, value).Err
 		if err != nil {
-			utils.ErrorToJSON(w, err)
-			w.WriteHeader(http.StatusBadRequest)
+			utils.SendResponse(w, err, http.StatusBadRequest)
 		} else {
 			w.WriteHeader(http.StatusCreated)
 		}

@@ -16,6 +16,7 @@ func Insert(w http.ResponseWriter, r *http.Request) {
 	tabName := mux.Vars(r)["table"]
 	r.ParseForm()
 
+	fmt.Printf("DEBUG : %v\n", r.Form)
 	statement := "INSERT INTO " + tabName + " ("
 	values := "VALUES ("
 	for key, vars := range r.Form {
@@ -30,10 +31,9 @@ func Insert(w http.ResponseWriter, r *http.Request) {
 		multInsert = true
 	}
 	statement = fmt.Sprintf("%s) %s);", statement, values)
-	_, err := db.SQL.Exec(statement)
+	_, err := db.SQL.Query(statement)
 	if err != nil {
-		utils.ErrorToJSON(w, err)
-		w.WriteHeader(http.StatusBadRequest)
+		utils.SendResponse(w, err, http.StatusBadRequest)
 	} else {
 		w.WriteHeader(http.StatusCreated)
 	}

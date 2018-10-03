@@ -2,7 +2,6 @@ package middlewares
 
 import (
 	"errors"
-	"fmt"
 	"net/http"
 
 	jwt "github.com/dgrijalva/jwt-go"
@@ -21,13 +20,12 @@ func ValidateMiddleware(level int, next http.HandlerFunc) http.HandlerFunc {
 				token, err := jwt.Parse(authorizationHeader, func(token *jwt.Token) (interface{}, error) {
 					_, ok := token.Method.(*jwt.SigningMethodHMAC)
 					if !ok {
-						return nil, fmt.Errorf("Internal error")
+						return nil, errors.New("Internal error")
 					}
 					return []byte(c.Cfg.Secret), nil
 				})
 				if err != nil {
-					utils.ErrorToJSON(w, err)
-					w.WriteHeader(http.StatusInternalServerError)
+					utils.SendResponse(w, err, http.StatusInternalServerError)
 					return
 				}
 				if token.Valid {
@@ -36,19 +34,17 @@ func ValidateMiddleware(level int, next http.HandlerFunc) http.HandlerFunc {
 					if int(uLevel) >= level {
 						next(w, r)
 					} else {
-						utils.ErrorToJSON(w, errors.New("Unauthorized"))
-						w.WriteHeader(http.StatusUnauthorized)
+						utils.SendResponse(w, errors.New("Unauthorized"), http.StatusUnauthorized)
+						return
 					}
 				} else {
-					utils.ErrorToJSON(w, errors.New("Bad token"))
-					w.WriteHeader(http.StatusBadRequest)
+					utils.SendResponse(w, errors.New("Bad token"), http.StatusBadRequest)
+					return
 				}
-
 			} else {
-				utils.ErrorToJSON(w, errors.New("Unauthorized"))
-				w.WriteHeader(http.StatusUnauthorized)
+				utils.SendResponse(w, errors.New("Unauthorized"), http.StatusUnauthorized)
+				return
 			}
-
 		} else {
 			next(w, r)
 		}
