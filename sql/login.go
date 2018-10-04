@@ -1,4 +1,4 @@
-package auth
+package sql
 
 import (
 	"encoding/json"
@@ -9,8 +9,6 @@ import (
 	jwt "github.com/dgrijalva/jwt-go"
 	"golang.org/x/crypto/bcrypt"
 
-	c "grapi/config"
-	"grapi/db"
 	"grapi/utils"
 )
 
@@ -27,29 +25,29 @@ type JwtToken struct {
 }
 
 // Login :
-func Login(w http.ResponseWriter, r *http.Request) {
+func (db *Database) Login(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 
-	authStruct, err := checkCredentials(r.Form)
+	authStruct, err := db.checkCredentials(r.Form)
 	if err != nil {
-		utils.SendResponse(w, err, http.StatusBadRequest)
+		utils.SendError(w, err, http.StatusBadRequest)
 		return
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"id":       authStruct.id,
+		"id":	    authStruct.id,
 		"username": authStruct.user,
 		"password": authStruct.pass,
 		"level":    authStruct.level,
 	})
-	tokenString, err := token.SignedString([]byte(c.Cfg.Secret))
+	tokenString, err := token.SignedString([]byte(db.config.Secret))
 	if err != nil {
-		utils.SendResponse(w, err, http.StatusInternalServerError)
+		utils.SendError(w, err, http.StatusInternalServerError)
 		return
 	}
 	json.NewEncoder(w).Encode(JwtToken{Token: tokenString})
 }
 
-func checkCredentials(form url.Values) (*auth, error) {
+func (db *Database) checkCredentials(form url.Values) (*auth, error) {
 	var username string
 	var pass []byte
 	authStruct := new(auth)
@@ -61,18 +59,18 @@ func checkCredentials(form url.Values) (*auth, error) {
 		err := errors.New("Bad request")
 		return nil, err
 	}
-	statement := "SELECT id, " + c.Cfg.AuthUserField +
-		", " + c.Cfg.AuthPassField +
-		", " + c.Cfg.AuthLevel +
-		" FROM " + c.Cfg.AuthTable +
-		" WHERE " + c.Cfg.AuthUserField + "=\"" + username + "\""
-	rows, err := db.SQL.Query(statement)
+	statement := "SELECT id, " + db.config.AuthUserField +
+		", " + db.config.AuthPassField +
+		", " + db.config.AuthLevel +
+		" FROM " + db.config.AuthTable +
+		" WHERE " + db.config.AuthUserField + "=\"" + username + "\""
+	rows, err := db.DB.Query(statement)
 	if err != nil {
 		err = errors.New("Database Error")
 		return nil, err
 	}
 	defer rows.Close()
-	result, err := utils.RowsToMap(rows)
+	result, err := rowsToMap(rows)
 	if err != nil {
 		return nil, err
 	}

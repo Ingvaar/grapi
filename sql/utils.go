@@ -4,17 +4,43 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
-	"grapi/utils"
 	"net/http"
 	"strconv"
 	"strings"
+
+	"grapi/utils"
 )
 
 type colStruct struct {
-	colPtr     []interface{}
+	colPtr	   []interface{}
 	colCount   int
 	colNames   []string
 	rowContent map[string]string
+}
+
+func rowsToMap(rows *sql.Rows) (map[string]interface{}, error) {
+	contentMap := make(map[string]interface{})
+	cols, err := rows.Columns()
+
+	if err != nil {
+		return contentMap, err
+	}
+	for rows.Next() {
+		columns := make([]interface{}, len(cols))
+		columnPointers := make([]interface{}, len(cols))
+		for i := range columns {
+			columnPointers[i] = &columns[i]
+		}
+		err = rows.Scan(columnPointers...)
+		if err != nil {
+			return contentMap, err
+		}
+		for i, colName := range cols {
+			val := columnPointers[i].(*interface{})
+			contentMap[colName] = *val
+		}
+	}
+	return contentMap, err
 }
 
 // PrintOne : function to print one row from a table
@@ -28,7 +54,7 @@ func PrintOne(colNames []string, rows *sql.Rows,
 	if jsonErr == nil {
 		fmt.Fprintf(w, "%s", jsonStr)
 	} else {
-		utils.SendResponse(w, jsonErr, http.StatusInternalServerError)
+		utils.SendError(w, jsonErr, http.StatusInternalServerError)
 	}
 }
 
@@ -48,7 +74,7 @@ func printMult(colNames []string, rows *sql.Rows,
 		if jsonErr == nil {
 			fmt.Fprintf(w, "%s", jsonStr)
 		} else {
-			utils.SendResponse(w, jsonErr, http.StatusInternalServerError)
+			utils.SendError(w, jsonErr, http.StatusInternalServerError)
 		}
 		multRows = true
 	}

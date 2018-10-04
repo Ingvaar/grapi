@@ -7,12 +7,12 @@ import (
 	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/gorilla/context"
 
-	c "grapi/config"
+	"grapi/core"
 	"grapi/utils"
 )
 
 // ValidateMiddleware : Validate the JWT
-func ValidateMiddleware(level int, next http.HandlerFunc) http.HandlerFunc {
+func ValidateMiddleware(config core.Config, level int, next http.HandlerFunc) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if level > 0 {
 			authorizationHeader := r.Header.Get("authorization")
@@ -22,10 +22,10 @@ func ValidateMiddleware(level int, next http.HandlerFunc) http.HandlerFunc {
 					if !ok {
 						return nil, errors.New("Internal error")
 					}
-					return []byte(c.Cfg.Secret), nil
+					return []byte(config.Secret), nil
 				})
 				if err != nil {
-					utils.SendResponse(w, err, http.StatusInternalServerError)
+					utils.SendError(w, err, http.StatusInternalServerError)
 					return
 				}
 				if token.Valid {
@@ -34,15 +34,15 @@ func ValidateMiddleware(level int, next http.HandlerFunc) http.HandlerFunc {
 					if int(uLevel) >= level {
 						next(w, r)
 					} else {
-						utils.SendResponse(w, errors.New("Unauthorized"), http.StatusUnauthorized)
+						utils.SendError(w, errors.New("Unauthorized"), http.StatusUnauthorized)
 						return
 					}
 				} else {
-					utils.SendResponse(w, errors.New("Bad token"), http.StatusBadRequest)
+					utils.SendError(w, errors.New("Bad token"), http.StatusBadRequest)
 					return
 				}
 			} else {
-				utils.SendResponse(w, errors.New("Unauthorized"), http.StatusUnauthorized)
+				utils.SendError(w, errors.New("Unauthorized"), http.StatusUnauthorized)
 				return
 			}
 		} else {
