@@ -8,7 +8,6 @@ import (
 
 	"github.com/gorilla/mux"
 
-	"grapi/db"
 	"grapi/utils"
 )
 
@@ -28,18 +27,18 @@ import (
 ** @apiParam | offset	| Int		| offset (default: 0)		| offset=10
 ** @apiParam | limit	| Int		| limit (default: 20)		| limit=40
  */
-func Select(w http.ResponseWriter, r *http.Request) {
+func (db *Database) Select(w http.ResponseWriter, r *http.Request) {
 	tabName := mux.Vars(r)["table"]
 	r.ParseForm()
 
 	statement := prepareStatement(r.Form, tabName)
-	rows, err := db.SQL.Query(statement)
+	rows, err := db.DB.Query(statement)
 	defer rows.Close()
 	colNames, errCol := rows.Columns()
 	if err != nil {
-		utils.SendResponse(w, err, http.StatusBadRequest)
+		utils.SendError(w, err, http.StatusBadRequest)
 	} else if errCol != nil {
-		utils.SendResponse(w, err, http.StatusInternalServerError)
+		utils.SendError(w, err, http.StatusInternalServerError)
 	} else {
 		PrintOne(colNames, rows, w)
 	}

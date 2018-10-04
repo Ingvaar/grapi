@@ -10,16 +10,18 @@ type Options struct {
 	ConfigFile string
 }
 
-// ParsCmdline : Pars the flags from the cmdline and returns an Options struct
-func ParsCmdline() {
+// parsCmdline : Pars the flags from the cmdline and returns an Options struct
+func parsCmdline() Options {
+	options := *new(Options)
 
-	flag.StringVar(&Cfg.Options.RoutesFile,
+	flag.StringVar(&options.RoutesFile,
 		"routes",
 		"./routes.json",
 		"Path to routes config file (json)")
-	flag.StringVar(&Cfg.Options.ConfigFile,
+	flag.StringVar(&options.ConfigFile,
 		"config",
 		"./config.json",
 		"Path to api config file (json)")
 	flag.Parse()
+	return (options)
 }

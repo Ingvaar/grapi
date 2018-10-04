@@ -6,22 +6,23 @@ import (
 	"log"
 	"os"
 
-	"grapi/config"
+	"grapi/core"
 )
 
-func createRoutes() Routes {
-	_, err := os.Stat(config.Cfg.Options.RoutesFile)
+// CreateRoutes :
+func CreateRoutes(config *core.Config) []core.Route {
+	_, err := os.Stat(config.RoutesFile)
 
 	if err == nil {
-		return (parsRoutes(config.Cfg.Options.RoutesFile))
+		return (parsRoutes(config.RoutesFile))
 	}
 	os.Exit(1)
 	return (nil)
 }
 
-func parsRoutes(path string) Routes {
+func parsRoutes(path string) []core.Route {
 	raw, err := ioutil.ReadFile(path)
-	var routes Routes
+	var routes []core.Route
 
 	if err != nil {
 		log.Fatal("Error while reading routes file\n")

@@ -5,18 +5,17 @@ import (
 
 	"github.com/gorilla/mux"
 
-	"grapi/db"
 	"grapi/utils"
 )
 
-// Show :
-func Show(w http.ResponseWriter, r *http.Request) {
+// Show : describe a table
+func (db *Database) Show(w http.ResponseWriter, r *http.Request) {
 	tabName := mux.Vars(r)["table"]
 	statement := "DESCRIBE " + tabName
 
-	rows, err := db.SQL.Query(statement)
+	rows, err := db.DB.Query(statement)
 	if err != nil {
-		utils.SendResponse(w, err, http.StatusBadRequest)
+		utils.SendError(w, err, http.StatusBadRequest)
 	} else {
 		defer rows.Close()
 		colNames, errCol := rows.Columns()
