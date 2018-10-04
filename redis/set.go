@@ -5,18 +5,17 @@ import (
 
 	"github.com/gorilla/mux"
 
-	j "grapi/json"
 	"grapi/utils"
 )
 
 // Set : use the hmset cmd from redis with a json passed as body
 // and with {type}:{id} as the id of the entry
 func (db *Database) Set(w http.ResponseWriter, r *http.Request) {
-	jsonmap := j.ToMap(w, r)
+	r.ParseForm()
 	id := mux.Vars(r)["type"] + ":" + mux.Vars(r)["id"]
 
-	for key, value := range jsonmap {
-		err := db.DB.Cmd("HMSET", id, key, value).Err
+	for key, value := range r.Form {
+		err := db.DB.Cmd("HMSET", id, key, value[0]).Err
 		if err != nil {
 			utils.SendError(w, err, http.StatusBadRequest)
 		} else {
