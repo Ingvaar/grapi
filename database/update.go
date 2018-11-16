@@ -5,12 +5,11 @@ import (
 
 	"github.com/gorilla/mux"
 
-	"grapi/db"
 	"grapi/utils"
 )
 
-// Update :
-func Update(w http.ResponseWriter, r *http.Request) {
+// Update : update value in row
+func (db *SQL) Update(w http.ResponseWriter, r *http.Request) {
 	multInsert := false
 	r.ParseForm()
 
@@ -25,9 +24,9 @@ func Update(w http.ResponseWriter, r *http.Request) {
 		multInsert = true
 	}
 	statement += " WHERE id=" + mux.Vars(r)["id"] + ";"
-	_, err := db.SQL.Exec(statement)
+	_, err := db.DB.Exec(statement)
 	if err != nil {
-		utils.SendResponse(w, err, http.StatusBadRequest)
+		utils.SendError(w, err, http.StatusBadRequest)
 	} else {
 		w.WriteHeader(http.StatusOK)
 	}

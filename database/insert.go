@@ -6,12 +6,11 @@ import (
 
 	"github.com/gorilla/mux"
 
-	"grapi/db"
 	"grapi/utils"
 )
 
-// Insert :
-func Insert(w http.ResponseWriter, r *http.Request) {
+// Insert : insert value in table
+func (db *SQL) Insert(w http.ResponseWriter, r *http.Request) {
 	multInsert := false
 	tabName := mux.Vars(r)["table"]
 	r.ParseForm()
@@ -31,9 +30,9 @@ func Insert(w http.ResponseWriter, r *http.Request) {
 		multInsert = true
 	}
 	statement = fmt.Sprintf("%s) %s);", statement, values)
-	_, err := db.SQL.Query(statement)
+	_, err := db.DB.Query(statement)
 	if err != nil {
-		utils.SendResponse(w, err, http.StatusBadRequest)
+		utils.SendError(w, err, http.StatusBadRequest)
 	} else {
 		w.WriteHeader(http.StatusCreated)
 	}

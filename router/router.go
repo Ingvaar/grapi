@@ -7,36 +7,20 @@ import (
 
 	"github.com/gorilla/mux"
 
-	"grapi/handlers"
+	c "grapi/core"
 	m "grapi/middlewares"
 )
 
-// Route : struct for the routes config file
-type Route struct {
-	Name	    string `json:"name"`
-	Method	    string `json:"method"`
-	Pattern     string `json:"pattern"`
-	HandlerFunc string `json:"handler"`
-	Level	    int    `json:"auth_req"`
-}
-
-// Routes : declares the type of an array of Route
-type Routes []Route
-
-// Router : global var of the router
-var Router *mux.Router
-
 // NewRouter : creates a new router
-func NewRouter() {
-	Router = mux.NewRouter().StrictSlash(true)
+func NewRouter(routes []c.Route, handlers c.Handlers, config c.Config) *mux.Router {
+	router := mux.NewRouter().StrictSlash(true)
 	var handler http.Handler
-	var routes = createRoutes()
 
 	if routes != nil {
 		for _, route := range routes {
-			handler = m.ValidateMiddleware(route.Level, handlers.HandlerFunc[route.HandlerFunc])
-			handler = m.Logger(handler, route.Name)
-			Router.
+			handler = m.ValidateMiddleware(config, route.Level, handlers[route.HandlerFunc])
+			handler = m.Logger(handler, route.Name, config)
+			router.
 				Methods(route.Method).
 				Path(route.Pattern).
 				Name(route.Name).
@@ -46,4 +30,5 @@ func NewRouter() {
 		log.Fatal("Error: Routes config file incorrect")
 		os.Exit(1)
 	}
+	return (router)
 }

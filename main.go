@@ -1,20 +1,17 @@
 package main
 
 import (
-	c "grapi/config"
-	"grapi/db"
-	r "grapi/router"
-	s "grapi/server"
+	a "grapi/app"
+	c "grapi/cache"
+	d "grapi/database"
+	se "grapi/server"
 )
 
 func main() {
-	c.ParsCmdline()
-	c.GetConfig()
-	db.OpenSQL()
-	db.OpenNoSQL()
-	r.NewRouter()
-
-	defer db.SQL.Close()
-	defer db.Nosql.Close()
-	s.StartServer()
+	app := a.App{
+		Database: &d.SQL{},
+		Cache:    &c.Redis{},
+		Server:   &se.Server{},
+	}
+	app.Run()
 }

@@ -7,12 +7,11 @@ import (
 
 	"github.com/gorilla/mux"
 
-	"grapi/db"
 	"grapi/utils"
 )
 
 // Delete : delete entry from table
-func Delete(w http.ResponseWriter, r *http.Request) {
+func (db *SQL) Delete(w http.ResponseWriter, r *http.Request) {
 	tabName := mux.Vars(r)["table"]
 	id := mux.Vars(r)["id"]
 	idNum, errAtoi := strconv.Atoi(id)
@@ -21,9 +20,9 @@ func Delete(w http.ResponseWriter, r *http.Request) {
 	if errAtoi != nil {
 		fmt.Fprintf(w, "{\"Error\": \"Invalid id '%s'\"}", id)
 	} else {
-		_, err := db.SQL.Query(statement)
+		_, err := db.DB.Query(statement)
 		if err != nil {
-			utils.SendResponse(w, err, http.StatusBadRequest)
+			utils.SendError(w, err, http.StatusBadRequest)
 		}
 	}
 }

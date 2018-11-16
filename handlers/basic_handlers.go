@@ -3,20 +3,7 @@ package handlers
 import (
 	"fmt"
 	"net/http"
-
-	"grapi/config"
-	"grapi/db"
 )
-
-func status(w http.ResponseWriter, r *http.Request) {
-	sqlErr := db.SQL.Ping()
-
-	if sqlErr == nil {
-		fmt.Fprintln(w, "SQL Database connected")
-	} else if sqlErr != nil && config.Cfg.UseSQL == 1 {
-		fmt.Fprintln(w, sqlErr)
-	}
-}
 
 func index(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintln(w, "Welcome !")

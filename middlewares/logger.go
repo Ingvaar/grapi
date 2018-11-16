@@ -6,11 +6,11 @@ import (
 	"os"
 	"time"
 
-	c "grapi/config"
+	"grapi/core"
 )
 
 // Logger : Prints logs of the server
-func Logger(inner http.Handler, name string) http.Handler {
+func Logger(inner http.Handler, name string, config core.Config) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		start := time.Now()
 
@@ -23,8 +23,8 @@ func Logger(inner http.Handler, name string) http.Handler {
 			name,
 			time.Since(start))
 
-		if c.Cfg.LogFile != "" {
-			f, err := os.OpenFile(c.Cfg.LogFile, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+		if config.LogFile != "" {
+			f, err := os.OpenFile(config.LogFile, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 			if err != nil {
 				log.Printf("Error opening file: %v", err)
 			}
