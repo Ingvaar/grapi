@@ -11,8 +11,8 @@ import (
 // App : app interface
 type App struct {
 	Database Database
-	Cache	 Cache
-	Server	 Server
+	Cache    Cache
+	Server   Server
 }
 
 // Database : database interface

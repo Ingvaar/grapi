@@ -12,7 +12,7 @@ import (
 )
 
 type colStruct struct {
-	colPtr	   []interface{}
+	colPtr     []interface{}
 	colCount   int
 	colNames   []string
 	rowContent map[string]string

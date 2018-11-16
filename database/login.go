@@ -34,7 +34,7 @@ func (db *SQL) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"id":	    authStruct.id,
+		"id":       authStruct.id,
 		"username": authStruct.user,
 		"password": authStruct.pass,
 		"level":    authStruct.level,

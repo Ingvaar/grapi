@@ -13,7 +13,7 @@ import (
 
 // SQL :
 type SQL struct {
-	DB *sql.DB
+	DB     *sql.DB
 	config core.Config
 }
 
