@@ -10,10 +10,10 @@ import (
 
 // Exists : do an exists on the id passed in the url
 // and return an http response code
-func (db *Database) Exists(w http.ResponseWriter, r *http.Request) {
+func (rd *Redis) Exists(w http.ResponseWriter, r *http.Request) {
 	id := mux.Vars(r)["type"] + ":" + mux.Vars(r)["id"]
 
-	reply, err := db.DB.Cmd("EXISTS", id).Int()
+	reply, err := rd.RC.Cmd("EXISTS", id).Int()
 	if err != nil {
 		utils.SendError(w, err, http.StatusBadRequest)
 	} else if reply == 0 {

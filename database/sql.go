@@ -11,22 +11,22 @@ import (
 	"grapi/core"
 )
 
-// Database :
-type Database struct {
+// SQL :
+type SQL struct {
 	DB *sql.DB
 	config core.Config
 }
 
 // Connect : connect the database
-func (db *Database) Connect(config *core.Config) {
+func (db *SQL) Connect(config *core.Config) {
 	db.config = *config
 	connectionStr := fmt.Sprintf("%s:%s@tcp(%s)/%s",
-		db.config.UsernameSQL,
-		db.config.PasswordSQL,
-		db.config.AddressSQL,
-		db.config.DatabaseSQL)
+		db.config.DatabaseUsername,
+		db.config.DatabasePassword,
+		db.config.DatabaseAddress,
+		db.config.DatabaseName)
 
-	if db.config.UseSQL == 0 {
+	if db.config.Database == 0 {
 		db.DB = nil
 		return
 	}
@@ -37,12 +37,12 @@ func (db *Database) Connect(config *core.Config) {
 		defer db.DB.Close()
 		log.Fatal("Cannot connect to SQL database")
 	}
-	log.Printf("SQL Database connected with address %s\n", db.config.AddressSQL)
+	log.Printf("SQL Database connected with address %s\n", db.config.DatabaseAddress)
 }
 
 // Register : register the functions to handler map
-func (db *Database) Register(handlers *core.Handlers) {
-	sql := Database{DB: db.DB, config: db.config}
+func (db *SQL) Register(handlers *core.Handlers) {
+	sql := SQL{DB: db.DB, config: db.config}
 	temp := core.Handlers{}
 
 	for key, value := range *handlers {

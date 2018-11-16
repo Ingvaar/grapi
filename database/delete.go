@@ -11,7 +11,7 @@ import (
 )
 
 // Delete : delete entry from table
-func (db *Database) Delete(w http.ResponseWriter, r *http.Request) {
+func (db *SQL) Delete(w http.ResponseWriter, r *http.Request) {
 	tabName := mux.Vars(r)["table"]
 	id := mux.Vars(r)["id"]
 	idNum, errAtoi := strconv.Atoi(id)

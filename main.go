@@ -2,16 +2,16 @@ package main
 
 import (
 	a "grapi/app"
-	r "grapi/redis"
-	s "grapi/sql"
+	c "grapi/cache"
+	d "grapi/database"
 	se "grapi/server"
 )
 
 func main() {
 	app := a.App{
-		SQL:	&s.Database{},
-		Redis:	&r.Database{},
-		Server: &se.Server{},
+		Database: &d.SQL{},
+		Cache:    &c.Redis{},
+		Server:   &se.Server{},
 	}
 	app.Run()
 }

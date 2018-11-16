@@ -25,7 +25,7 @@ type JwtToken struct {
 }
 
 // Login :
-func (db *Database) Login(w http.ResponseWriter, r *http.Request) {
+func (db *SQL) Login(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 
 	authStruct, err := db.checkCredentials(r.Form)
@@ -47,7 +47,7 @@ func (db *Database) Login(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(JwtToken{Token: tokenString})
 }
 
-func (db *Database) checkCredentials(form url.Values) (*auth, error) {
+func (db *SQL) checkCredentials(form url.Values) (*auth, error) {
 	var username string
 	var pass []byte
 	authStruct := new(auth)

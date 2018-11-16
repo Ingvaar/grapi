@@ -9,7 +9,7 @@ import (
 )
 
 // Show : describe a table
-func (db *Database) Show(w http.ResponseWriter, r *http.Request) {
+func (db *SQL) Show(w http.ResponseWriter, r *http.Request) {
 	tabName := mux.Vars(r)["table"]
 	statement := "DESCRIBE " + tabName
 

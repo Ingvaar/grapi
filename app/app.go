@@ -10,19 +10,19 @@ import (
 
 // App : app interface
 type App struct {
-	SQL    SQL
-	Redis  NoSQL
-	Server Server
+	Database Database
+	Cache	 Cache
+	Server	 Server
 }
 
-// SQL : sql interface
-type SQL interface {
+// Database : database interface
+type Database interface {
 	Connect(*core.Config)
 	Register(*core.Handlers)
 }
 
-// NoSQL : nosql interface
-type NoSQL interface {
+// Cache : cache interface
+type Cache interface {
 	Connect(*core.Config)
 	Register(*core.Handlers)
 }
@@ -37,10 +37,10 @@ func (app *App) Run() {
 	config := config.GetConfig()
 
 	handlers := new(core.Handlers)
-	app.SQL.Connect(config)
-	app.SQL.Register(handlers)
-	app.Redis.Connect(config)
-	app.Redis.Register(handlers)
+	app.Database.Connect(config)
+	app.Database.Register(handlers)
+	app.Cache.Connect(config)
+	app.Cache.Register(handlers)
 
 	routes := router.CreateRoutes(config)
 	router := router.NewRouter(routes, *handlers, *config)

@@ -8,22 +8,22 @@ import (
 	"github.com/mediocregopher/radix.v2/redis"
 )
 
-// Database :
-type Database struct {
-	DB *redis.Client
+// Redis :
+type Redis struct {
+	RC *redis.Client
 }
 
 // Connect :
-func (db *Database) Connect(config *core.Config) {
+func (rd *Redis) Connect(config *core.Config) {
 	connectionStr := fmt.Sprintf("%s:%s",
-		config.NoSQLAddress,
-		config.NoSQLPort)
+		config.CacheAddress,
+		config.CachePort)
 
-	if config.NoSQL != 0 {
+	if config.Cache != 0 {
 		var err error
-		db.DB, err = redis.Dial(config.NoSQLConnType, connectionStr)
+		rd.RC, err = redis.Dial(config.CacheConnType, connectionStr)
 		if err != nil {
-			defer db.DB.Close()
+			defer rd.RC.Close()
 			log.Fatal("Cannot connect to redis")
 		}
 		log.Printf("Redis connected with address: %s\n", connectionStr)
@@ -31,8 +31,8 @@ func (db *Database) Connect(config *core.Config) {
 }
 
 // Register : register the functions to handler map
-func (db *Database) Register(handlers *core.Handlers) {
-	redis := Database{DB: db.DB}
+func (rd *Redis) Register(handlers *core.Handlers) {
+	redis := Redis{RC: rd.RC}
 	temp := core.Handlers{}
 
 	for key, value := range *handlers {

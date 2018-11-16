@@ -9,7 +9,7 @@ import (
 )
 
 // Update : update value in row
-func (db *Database) Update(w http.ResponseWriter, r *http.Request) {
+func (db *SQL) Update(w http.ResponseWriter, r *http.Request) {
 	multInsert := false
 	r.ParseForm()
 

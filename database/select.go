@@ -27,7 +27,7 @@ import (
 ** @apiParam | offset	| Int		| offset (default: 0)		| offset=10
 ** @apiParam | limit	| Int		| limit (default: 20)		| limit=40
  */
-func (db *Database) Select(w http.ResponseWriter, r *http.Request) {
+func (db *SQL) Select(w http.ResponseWriter, r *http.Request) {
 	tabName := mux.Vars(r)["table"]
 	r.ParseForm()
 

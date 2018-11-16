@@ -9,10 +9,10 @@ import (
 )
 
 // Delete : delete the passed id
-func (db *Database) Delete(w http.ResponseWriter, r *http.Request) {
+func (rd *Redis) Delete(w http.ResponseWriter, r *http.Request) {
 	id := mux.Vars(r)["type"] + ":" + mux.Vars(r)["id"]
 
-	reply, err := db.DB.Cmd("DEL", id).Int()
+	reply, err := rd.RC.Cmd("DEL", id).Int()
 	if err != nil {
 		utils.SendError(w, err, http.StatusBadRequest)
 	} else if reply == 0 {

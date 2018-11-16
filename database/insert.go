@@ -10,7 +10,7 @@ import (
 )
 
 // Insert : insert value in table
-func (db *Database) Insert(w http.ResponseWriter, r *http.Request) {
+func (db *SQL) Insert(w http.ResponseWriter, r *http.Request) {
 	multInsert := false
 	tabName := mux.Vars(r)["table"]
 	r.ParseForm()
