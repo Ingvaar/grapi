@@ -11,8 +11,8 @@ import (
 // App : app interface
 type App struct {
 	Database Database
-	Cache    Cache
-	Server   Server
+	Cache	 Cache
+	Server	 Server
 }
 
 // Database : database interface
@@ -45,5 +45,4 @@ func (app *App) Run() {
 	routes := router.CreateRoutes(config)
 	router := router.NewRouter(routes, *handlers, *config)
 	app.Server.Start(router, config)
-
 }
