@@ -1,16 +1,6 @@
 package utils
 
-import (
-	"fmt"
-	"net/http"
-	"strconv"
-)
-
-// SendError : print an error in json format to ResponseWriter
-func SendError(w http.ResponseWriter, err error, status int) {
-	w.WriteHeader(status)
-	fmt.Fprintf(w, "{\"Error\": \"%v\"}", err)
-}
+import "strconv"
 
 // BytesToString : convert bytes to string
 func BytesToString(bs []uint8) string {
