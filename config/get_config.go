@@ -11,14 +11,18 @@ import (
 
 // GetConfig : returns the config struct from config file
 // path in Options struct
-func GetConfig() *core.Config {
-	config := new(core.Config)
+func GetConfig(config *core.Config) {
 	options := parsCmdline()
-	config.RoutesFile = options.RoutesFile
-	_, err := os.Stat(options.ConfigFile)
+	if (config.RoutesFile == "") {
+		config.RoutesFile = options.RoutesFile
+	}
+	if (config.ConfigFile == "") {
+		config.ConfigFile = options.ConfigFile
+	}
+	_, err := os.Stat(config.ConfigFile)
 
 	if err == nil {
-		raw, err := ioutil.ReadFile(options.ConfigFile)
+		raw, err := ioutil.ReadFile(config.ConfigFile)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -29,5 +33,4 @@ func GetConfig() *core.Config {
 	} else {
 		log.Fatal(err)
 	}
-	return (config)
 }

@@ -1,7 +1,7 @@
 package app
 
 import (
-	"grapi/config"
+	cfg "grapi/config"
 	"grapi/core"
 	"grapi/router"
 
@@ -11,8 +11,8 @@ import (
 // App : app interface
 type App struct {
 	Database Database
-	Cache    Cache
-	Server   Server
+	Cache	 Cache
+	Server	 Server
 }
 
 // Database : database interface
@@ -34,7 +34,8 @@ type Server interface {
 
 // Run : run the app
 func (app *App) Run() {
-	config := config.GetConfig()
+	config := new(core.Config)
+	cfg.GetConfig(config)
 
 	handlers := new(core.Handlers)
 	app.Database.Connect(config)
