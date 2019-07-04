@@ -2,6 +2,7 @@ package config
 
 import (
 	"encoding/json"
+	"io"
 	"io/ioutil"
 	"log"
 	"os"
@@ -11,23 +12,28 @@ import (
 
 // GetConfig : returns the config struct from config file
 // path in Options struct
-func GetConfig() *core.Config {
-	config := new(core.Config)
-	options := parsCmdline()
-	config.RoutesFile = options.RoutesFile
-	_, err := os.Stat(options.ConfigFile)
+func GetConfig(config *core.Config) {
+	config.Files = getFiles()
+	handle, err := os.Open(config.Files.Config)
 
-	if err == nil {
-		raw, err := ioutil.ReadFile(options.ConfigFile)
-		if err != nil {
-			log.Fatal(err)
-		}
-		err = json.Unmarshal([]byte(raw), &config)
-		if err != nil {
-			log.Fatal(err)
-		}
-	} else {
+	if err != nil {
 		log.Fatal(err)
 	}
-	return (config)
+	defer handle.Close()
+	err = parsFile(handle, config)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func parsFile(file io.Reader, config *core.Config) error {
+	raw, err := ioutil.ReadAll(file)
+	if err != nil {
+		return err
+	}
+	err = json.Unmarshal([]byte(raw), &config)
+	if err != nil {
+		return err
+	}
+	return nil
 }
