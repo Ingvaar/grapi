@@ -11,23 +11,29 @@ import (
 
 // CreateRoutes :
 func CreateRoutes(config *core.Config) []core.Route {
-	_, err := os.Stat(config.Files.Routes)
+	handle, err := os.Open(config.Files.Routes)
 
-	if err == nil {
-		return (parsRoutes(config.Files.Routes))
+	if err != nil {
+		log.Fatal(err)
 	}
-	os.Exit(1)
-	return (nil)
+	defer handle.Close()
+	routes, err := parsRoutes(config.Files.Routes)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return (routes)
 }
 
-func parsRoutes(path string) []core.Route {
+func parsRoutes(path string) ([]core.Route, error) {
 	raw, err := ioutil.ReadFile(path)
 	var routes []core.Route
 
 	if err != nil {
-		log.Fatal("Error while reading routes file\n")
-		os.Exit(1)
+		return nil, err
 	}
-	json.Unmarshal([]byte(raw), &routes)
-	return (routes)
+	err = json.Unmarshal([]byte(raw), &routes)
+	if err != nil {
+		return nil, err
+	}
+	return routes, nil
 }
