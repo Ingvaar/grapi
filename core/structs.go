@@ -1,9 +1,14 @@
 package core
 
+// Files : struct with path to config files
+type Files struct {
+	Routes string
+	Config string
+}
+
 // Config : struct of the config file
 type Config struct {
-	ConfigFile	 string
-	RoutesFile	 string
+	Files		 Files
 	Cache		 int	`json:"cache"`
 	CacheConnType	 string `json:"cache_conn_type"`
 	CacheAddress	 string `json:"cache_address"`

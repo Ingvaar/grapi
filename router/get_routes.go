@@ -11,10 +11,10 @@ import (
 
 // CreateRoutes :
 func CreateRoutes(config *core.Config) []core.Route {
-	_, err := os.Stat(config.RoutesFile)
+	_, err := os.Stat(config.Files.Routes)
 
 	if err == nil {
-		return (parsRoutes(config.RoutesFile))
+		return (parsRoutes(config.Files.Routes))
 	}
 	os.Exit(1)
 	return (nil)
