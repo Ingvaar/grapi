@@ -25,10 +25,4 @@ func TestFileParsing(t *testing.T) {
 			t.Errorf("JSON error detecting error")
 		}
 	})
-	t.Run("readerKO", func(t *testing.T) {
-		err := parsFile(strings.NewReader("{\"cache\": 0}"), config)
-		if err == nil {
-			t.Errorf("parsFile reader error")
-		}
-	})
 }
