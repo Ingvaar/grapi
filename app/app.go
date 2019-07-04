@@ -34,16 +34,17 @@ type Server interface {
 
 // Run : run the app
 func (app *App) Run() {
-	config := new(core.Config)
-	cfg.GetConfig(config)
+	var config core.Config
+	var handlers core.Handlers
+	cfg.GetConfig(&config)
 
-	handlers := new(core.Handlers)
-	app.Database.Connect(config)
-	app.Database.Register(handlers)
-	app.Cache.Connect(config)
-	app.Cache.Register(handlers)
+	app.Database.Connect(&config)
+	app.Database.Register(&handlers)
 
-	routes := router.CreateRoutes(config)
-	router := router.NewRouter(routes, *handlers, *config)
-	app.Server.Start(router, config)
+	app.Cache.Connect(&config)
+	app.Cache.Register(&handlers)
+
+	routes := router.CreateRoutes(&config)
+	router := router.NewRouter(routes, handlers, config)
+	app.Server.Start(router, &config)
 }
