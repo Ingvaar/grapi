@@ -1,28 +1,30 @@
 package config
 
 import (
-	"io/ioutil"
-	"log"
-	"strings"
+	"io"
 	"testing"
 
 	"grapi/core"
 )
 
-func TestFileParsing(t *testing.T) {
-	config := new(core.Config)
-	log.SetOutput(ioutil.Discard)
+func testParsFileKO(reader io.Reader) func(*testing.T) {
+	return func(t *testing.T) {
+		var config core.Config
 
-	t.Run("parsJsonOK", func(t *testing.T) {
-		err := parsFile(strings.NewReader("{\"cache\": 0}"), config)
-		if err != nil {
-			t.Errorf("JSON parsing error: %v", err)
-		}
-	})
-	t.Run("parsJsonKO", func(t *testing.T) {
-		err := parsFile(strings.NewReader("\"che\" 0}"), config)
+		err := parsFile(reader, &config)
 		if err == nil {
-			t.Errorf("JSON error detecting error")
+			t.Errorf("Error nil")
 		}
-	})
+	}
+}
+
+func testParsFileOK(reader io.Reader) func(*testing.T) {
+	return func(t *testing.T) {
+		var config core.Config
+
+		err := parsFile(reader, &config)
+		if err != nil {
+			t.Errorf("Error: %v", err)
+		}
+	}
 }
